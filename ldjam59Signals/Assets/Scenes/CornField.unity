@@ -119,54 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &205654015
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 205654017}
-  - component: {fileID: 205654016}
-  m_Layer: 0
-  m_Name: Game
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &205654016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 205654015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a02b4ad95948c2248b38038f0653cda2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FirstPersonController: {fileID: 0}
-  HandItemManager: {fileID: 0}
-  TexturePainter: {fileID: 1694082444}
-  targetTexture: {fileID: 2800000, guid: 419751e9a8d09864ea4e0921ae6f0cd4, type: 3}
---- !u!4 &205654017
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 205654015}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.650466, y: 33.565136, z: 8.543582}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1694082439
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,8 +241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d297579075c49a34eab0e478ee19d3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  drawColor: {r: 0, g: 0, b: 0, a: 1}
   brushSize: 8
   Texture: {fileID: 0}
   grassWorld: {fileID: 1928992612}
@@ -327,8 +277,9 @@ MonoBehaviour:
   fieldHeight: 200
   spacing: 0.5
   jitter: 0.2
-  minHeight: 3
-  maxHeight: 5
+  minHeight: 1.5
+  maxHeight: 2.5
+  maxWidth: 10
   bendRecoverySpeed: 3
   grassMesh: {fileID: 690106047850165013, guid: b69768f41bda1e247b88170e879bcb6c, type: 3}
   grassMaterial: {fileID: 2100000, guid: f8db033ecfe907a498e3c9df31336aa8, type: 2}
@@ -365,4 +316,3 @@ SceneRoots:
   m_Roots:
   - {fileID: 1694082443}
   - {fileID: 1928992613}
-  - {fileID: 205654017}

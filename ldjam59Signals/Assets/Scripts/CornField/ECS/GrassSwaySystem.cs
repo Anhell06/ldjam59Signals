@@ -80,7 +80,7 @@ namespace GrassField.CustomECS
                 data.Matrices[i] = Matrix4x4.TRS(
                     data.Positions[i],
                     windRot * bendRot * baseRot,
-                    new Vector3(1f, _grassHeight, 1f));
+                    new Vector3(_grassHeight, _grassHeight, _grassHeight));
 
                 // ---- 6. Цвет: плавный lerp между нормальным и тёмным ----
                 //data.Colors[i] = Vector4.Lerp(vNormal, vBent, bendFactor);
