@@ -76,8 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10dbd563bb38164e869f745095b31f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemOffsets: {x: 5, y: 5}
-  _fieldSize: {x: 50, y: 50}
+  _itemOffsets: {x: 10, y: 10}
+  _fieldSize: {x: 20, y: 20}
   _mapCheckElementViewTemplate: {fileID: 2855053824334713775, guid: 6a5afd61c61d5e241bfde893fbc54e58, type: 3}
   _elementContainer: {fileID: 6528298925019604134}
   _showGizmos: 1
