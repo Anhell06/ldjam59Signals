@@ -120,13 +120,16 @@ public class MapCheckView : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
+            var result = new bool[_fieldSize.x, _fieldSize.x];
+            TextureComparerResized.Compare(Game.Instance.currentTexture, Game.Instance.targetTexture, result);
+
             List<List<EMapCheckElementState>> testStates = new();
             for (int x = 0; x < _fieldSize.x; x++)
             {
                 testStates.Add(new List<EMapCheckElementState>());
 
                 for (int y = 0; y < _fieldSize.y; y++)
-                    testStates[x].Add((EMapCheckElementState)Random.Range(1,4));
+                    testStates[x].Add(result[x,y] ? EMapCheckElementState.Positive : EMapCheckElementState.Negative);
             }
 
             Init(testStates);

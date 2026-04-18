@@ -7,7 +7,7 @@ public class TexturePainter : MonoBehaviour
     public Color drawColor = Color.black;
     public int brushSize = 8;
 
-    private Texture2D texture;
+    public Texture2D Texture;
     private Renderer rend;
 
     [SerializeField]
@@ -19,20 +19,20 @@ public class TexturePainter : MonoBehaviour
         rend = GetComponent<Renderer>();
 
         // Клонируем текстуру, чтобы можно было менять
-        texture = Instantiate(rend.material.mainTexture) as Texture2D;
-        texture.Apply();
+        Texture = Instantiate(rend.material.mainTexture) as Texture2D;
+        Texture.Apply();
 
-        rend.material.mainTexture = texture;
+        rend.material.mainTexture = Texture;
     }
 
     public void Paint(Color color, Vector2 uv)
     {
-        int x = (int)(uv.x * texture.width);
-        int y = (int)(uv.y * texture.height);
+        int x = (int)(uv.x * Texture.width);
+        int y = (int)(uv.y * Texture.height);
 
         DrawCircle(x, y, brushSize, color);
-        texture.Apply();
-        grassWorld.SetMask(texture);
+        Texture.Apply();
+        grassWorld.SetMask(Texture);
     }
 
     void DrawCircle(int cx, int cy, int r, Color color)
@@ -46,9 +46,9 @@ public class TexturePainter : MonoBehaviour
                     int px = cx + x;
                     int py = cy + y;
 
-                    if (px >= 0 && px < texture.width && py >= 0 && py < texture.height)
+                    if (px >= 0 && px < Texture.width && py >= 0 && py < Texture.height)
                     {
-                        texture.SetPixel(px, py, color);
+                        Texture.SetPixel(px, py, color);
                     }
                 }
             }
