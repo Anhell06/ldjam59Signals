@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,14 +11,29 @@ public class MapCheckView : MonoBehaviour
     [SerializeField] private Vector2Int _fieldSize;
     [SerializeField] private MapCheckElementView _mapCheckElementViewTemplate;
     [SerializeField] private Transform _elementContainer;
+
+    [Header("Animation")]
+    [SerializeField] private int _sameTimeCheckablePoints;
+    [SerializeField] private Vector2 _minAndMaxCheckDuration;
+
+    [Header("Editor")]
     [SerializeField] private bool _showGizmos;
 
-    private List<List<MapCheckElementView>> _mapCheckElementView2dList = new ();
-    private Queue<MapCheckElementView> _elementViewsPool = new ();
+    private int _viewAnimationsInProgress = 0;
+    private List<List<EMapCheckElementState>> _currentStates;
+    private List<List<bool>> _animationSequenceSemaphore2dList = new ();
+    private List<List<MapCheckElementView>> _mapCheckElementView2dList = new();
+    private Queue<MapCheckElementView> _elementViewsPool = new();
+
+    private CancellationTokenSource _cancellationTokenSource = new();
+    private List<int> _preAllocatedIndexToCheck = new();
 
     public void Init(List<List<EMapCheckElementState>> states2dList)
     {
+        StopAnimation();
         ResetAllStates();
+
+        _currentStates = states2dList;
 
         var viewPosition = Vector3.zero;
 
@@ -24,21 +41,78 @@ public class MapCheckView : MonoBehaviour
         {
             var statesList = states2dList[x];
 
-            if(_mapCheckElementView2dList.Count <= x)
+            if (_mapCheckElementView2dList.Count <= x)
                 _mapCheckElementView2dList.Add(new List<MapCheckElementView>());
+
+            if (_animationSequenceSemaphore2dList.Count <= x)
+                _animationSequenceSemaphore2dList.Add(new List<bool>());
 
             for (var y = 0; y < statesList.Count; y++)
             {
-                if(_mapCheckElementView2dList[x].Count <= y)
+                if (_mapCheckElementView2dList[x].Count <= y)
                     _mapCheckElementView2dList[x].Add(GetOrCreateView());
 
-                var elementToSet = _mapCheckElementView2dList[x][y];
-                elementToSet.SetState(states2dList[x][y]);
+                if (_animationSequenceSemaphore2dList[x].Count <= y)
+                    _animationSequenceSemaphore2dList[x].Add(false);
 
-                viewPosition.x = x * _itemOffsets.x/2f;
-                viewPosition.z = y * _itemOffsets.y/2f;
+                var elementToSet = _mapCheckElementView2dList[x][y];
+                elementToSet.SetActive(false);
+
+                viewPosition.x = x * _itemOffsets.x / 2f;
+                viewPosition.z = y * _itemOffsets.y / 2f;
                 elementToSet.transform.position = _elementContainer.TransformPoint(viewPosition);
             }
+        }
+    }
+
+    public void StopAnimation()
+    {
+        if(_cancellationTokenSource != null)
+            _cancellationTokenSource.Cancel();
+
+        _viewAnimationsInProgress = 0;
+        ResetAllStates();
+        ResetAnimationSemaphores();
+    }
+
+    private void ViewAnimationCallback()
+    {
+        _viewAnimationsInProgress--;
+        StartNewAnimationIsNeeded();
+    }
+
+    public void StartNewAnimationIsNeeded()
+    {
+        if(_cancellationTokenSource != null)
+            _cancellationTokenSource.Cancel();
+
+        _cancellationTokenSource = new CancellationTokenSource();
+
+        for (var x = 0; x < _animationSequenceSemaphore2dList.Count; x++)
+        {
+            var semaphoreRow = _animationSequenceSemaphore2dList[x];
+            _preAllocatedIndexToCheck.Clear();
+
+            for (var y = 0; y < semaphoreRow.Count; y++)
+            {
+                if (!semaphoreRow[y])
+                    _preAllocatedIndexToCheck.Add(y);
+            }
+
+            if(_preAllocatedIndexToCheck.Count == 0)
+                continue;
+
+            var randomIndex = Random.Range(0, _preAllocatedIndexToCheck.Count);
+            var yToPlay = _preAllocatedIndexToCheck[randomIndex];
+            _mapCheckElementView2dList[x][yToPlay].SetStateWithDelay(_currentStates[x][yToPlay],
+                Mathf.RoundToInt(Random.Range(_minAndMaxCheckDuration.x, _minAndMaxCheckDuration.y) * 1000),
+                _cancellationTokenSource.Token, ViewAnimationCallback);
+            semaphoreRow[yToPlay] = true;
+            _viewAnimationsInProgress++;
+            _preAllocatedIndexToCheck.RemoveAt(randomIndex);
+
+            if (_viewAnimationsInProgress >= _sameTimeCheckablePoints)
+                return;
         }
     }
 
@@ -65,6 +139,19 @@ public class MapCheckView : MonoBehaviour
         }
     }
 
+    private void ResetAnimationSemaphores()
+    {
+        for (var x = 0; x < _animationSequenceSemaphore2dList.Count; x++)
+        {
+            var semaphoreRow = _animationSequenceSemaphore2dList[x];
+
+            for (var y = 0; y < semaphoreRow.Count; y++)
+            {
+                semaphoreRow[y] = false;
+            }
+        }
+    }
+
     private void ReturnAllToPool()
     {
         foreach (var mapElementViewList in _mapCheckElementView2dList)
@@ -86,7 +173,7 @@ public class MapCheckView : MonoBehaviour
 
     private MapCheckElementView GetOrCreateView()
     {
-        if(_elementViewsPool.TryDequeue(out var mapCheckElementView))
+        if (_elementViewsPool.TryDequeue(out var mapCheckElementView))
             return mapCheckElementView;
 
         return Instantiate(_mapCheckElementViewTemplate, _elementContainer);
@@ -98,7 +185,7 @@ public class MapCheckView : MonoBehaviour
             return;
 
 
-        if(_mapCheckElementViewTemplate == null || _elementContainer == null)
+        if (_mapCheckElementViewTemplate == null || _elementContainer == null)
             return;
 
         Vector3 cubePosition = Vector3.zero;
@@ -108,9 +195,10 @@ public class MapCheckView : MonoBehaviour
         {
             for (var y = 0; y < _fieldSize.y; y++)
             {
-                cubePosition.x = x * _itemOffsets.x/2f;
-                cubePosition.z = y * _itemOffsets.y/2f;
-                Gizmos.DrawCube(_elementContainer.TransformPoint(cubePosition), _mapCheckElementViewTemplate.transform.localScale);
+                cubePosition.x = x * _itemOffsets.x / 2f;
+                cubePosition.z = y * _itemOffsets.y / 2f;
+                Gizmos.DrawCube(_elementContainer.TransformPoint(cubePosition),
+                    _mapCheckElementViewTemplate.transform.localScale);
             }
         }
     }
@@ -129,12 +217,18 @@ public class MapCheckView : MonoBehaviour
                 testStates.Add(new List<EMapCheckElementState>());
 
                 for (int y = 0; y < _fieldSize.y; y++)
-                    testStates[x].Add(result[x,y] ? EMapCheckElementState.Positive : EMapCheckElementState.Negative);
+                    testStates[x].Add(result[x, y] ? EMapCheckElementState.Positive : EMapCheckElementState.Negative);
             }
 
             Init(testStates);
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            StopAnimation();
+            ResetAllStates();
+            StartNewAnimationIsNeeded();
+        }
     }
 #endif
-
 }

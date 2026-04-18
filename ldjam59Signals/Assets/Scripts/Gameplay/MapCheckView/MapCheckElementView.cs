@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public enum EMapCheckElementState
@@ -37,5 +40,16 @@ public class MapCheckElementView : MonoBehaviour
                 _neutralStateGameObject.SetActive(true);
                 break;
         }
+    }
+
+    public async Task SetStateWithDelay(EMapCheckElementState state, int delay, CancellationToken cancellationToken, Action onComplete = null)
+    {
+        await Task.Delay(delay, cancellationToken);
+
+        if(cancellationToken.IsCancellationRequested)
+            return;
+
+        SetState(state);
+        onComplete?.Invoke();
     }
 }

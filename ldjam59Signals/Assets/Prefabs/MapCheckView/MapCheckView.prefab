@@ -80,4 +80,6 @@ MonoBehaviour:
   _fieldSize: {x: 20, y: 20}
   _mapCheckElementViewTemplate: {fileID: 2855053824334713775, guid: 6a5afd61c61d5e241bfde893fbc54e58, type: 3}
   _elementContainer: {fileID: 6528298925019604134}
-  _showGizmos: 1
+  _sameTimeCheckablePoints: 3
+  _minAndMaxCheckDuration: {x: 0, y: 0.1}
+  _showGizmos: 0
