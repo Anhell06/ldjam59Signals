@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
     public FirstPersonController PlayerPrefab;
     public string CornFieldScene;
     public string GameplayScene;
+    public string ArtScene;
 
     public FirstPersonController FirstPersonController;
     public HandItemManager HandItemManager;
@@ -25,6 +26,7 @@ public class Game : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
+        SceneManager.LoadScene(ArtScene, LoadSceneMode.Additive);
         SceneManager.LoadScene(CornFieldScene, LoadSceneMode.Additive);
         SceneManager.LoadScene(GameplayScene, LoadSceneMode.Additive);
 
