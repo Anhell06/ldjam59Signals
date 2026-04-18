@@ -102,17 +102,20 @@ public class MapCheckView : MonoBehaviour
             if(_preAllocatedIndexToCheck.Count == 0)
                 continue;
 
-            var randomIndex = Random.Range(0, _preAllocatedIndexToCheck.Count);
-            var yToPlay = _preAllocatedIndexToCheck[randomIndex];
-            _mapCheckElementView2dList[x][yToPlay].SetStateWithDelay(_currentStates[x][yToPlay],
-                Mathf.RoundToInt(Random.Range(_minAndMaxCheckDuration.x, _minAndMaxCheckDuration.y) * 1000),
-                _cancellationTokenSource.Token, ViewAnimationCallback);
-            semaphoreRow[yToPlay] = true;
-            _viewAnimationsInProgress++;
-            _preAllocatedIndexToCheck.RemoveAt(randomIndex);
+            while (_preAllocatedIndexToCheck.Count != 0)
+            {
+                var randomIndex = Random.Range(0, _preAllocatedIndexToCheck.Count);
+                var yToPlay = _preAllocatedIndexToCheck[randomIndex];
+                _mapCheckElementView2dList[x][yToPlay].SetStateWithDelay(_currentStates[x][yToPlay],
+                    Mathf.RoundToInt(Random.Range(_minAndMaxCheckDuration.x, _minAndMaxCheckDuration.y) * 1000),
+                    _cancellationTokenSource.Token, ViewAnimationCallback);
+                semaphoreRow[yToPlay] = true;
+                _viewAnimationsInProgress++;
+                _preAllocatedIndexToCheck.RemoveAt(randomIndex);
 
-            if (_viewAnimationsInProgress >= _sameTimeCheckablePoints)
-                return;
+                if (_viewAnimationsInProgress >= _sameTimeCheckablePoints)
+                    return;
+            }
         }
     }
 
