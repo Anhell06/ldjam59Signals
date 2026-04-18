@@ -321,14 +321,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3a599eb8eefb7468c779978e1b2994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldWidth: 100
-  fieldHeight: 100
+  fieldWidth: 200
+  fieldHeight: 200
   spacing: 0.5
   jitter: 0.2
   minHeight: 3
   maxHeight: 5
   bendRecoverySpeed: 3
-  grassMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  grassMesh: {fileID: 690106047850165013, guid: b69768f41bda1e247b88170e879bcb6c, type: 3}
   grassMaterial: {fileID: 2100000, guid: f8db033ecfe907a498e3c9df31336aa8, type: 2}
   renderLayer: 0
   normalColor: {r: 0.3, g: 0.5, b: 0.15, a: 1}
