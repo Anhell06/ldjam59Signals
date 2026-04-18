@@ -151,6 +151,7 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 1447630008456056081, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
   CornFieldScene: CornField
   GameplayScene: GamePlay
+  ArtScene: Art
   FirstPersonController: {fileID: 0}
   HandItemManager: {fileID: 0}
   TexturePainter: {fileID: 0}
