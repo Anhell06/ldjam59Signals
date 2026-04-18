@@ -83,10 +83,11 @@ public class MapCheckView : MonoBehaviour
 
     public void StartNewAnimationIsNeeded()
     {
-        if(_cancellationTokenSource != null)
-            _cancellationTokenSource.Cancel();
-
-        _cancellationTokenSource = new CancellationTokenSource();
+        if (_cancellationTokenSource.IsCancellationRequested)
+        {
+            _cancellationTokenSource.Dispose();
+            _cancellationTokenSource = new CancellationTokenSource();
+        }
 
         for (var x = 0; x < _animationSequenceSemaphore2dList.Count; x++)
         {
@@ -106,9 +107,12 @@ public class MapCheckView : MonoBehaviour
             {
                 var randomIndex = Random.Range(0, _preAllocatedIndexToCheck.Count);
                 var yToPlay = _preAllocatedIndexToCheck[randomIndex];
+                _mapCheckElementView2dList[x][yToPlay].SetState(EMapCheckElementState.InProgress);
+
                 _mapCheckElementView2dList[x][yToPlay].SetStateWithDelay(_currentStates[x][yToPlay],
                     Mathf.RoundToInt(Random.Range(_minAndMaxCheckDuration.x, _minAndMaxCheckDuration.y) * 1000),
                     _cancellationTokenSource.Token, ViewAnimationCallback);
+
                 semaphoreRow[yToPlay] = true;
                 _viewAnimationsInProgress++;
                 _preAllocatedIndexToCheck.RemoveAt(randomIndex);
