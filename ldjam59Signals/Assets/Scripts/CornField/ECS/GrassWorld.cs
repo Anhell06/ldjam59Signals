@@ -73,7 +73,7 @@ namespace GrassField.CustomECS
                 _components.Matrices[i] = Matrix4x4.TRS(
                     _components.Positions[i],
                     Quaternion.Euler(0, _components.RotationsY[i], 0),
-                    new Vector3(1f, h, 1f));
+                    new Vector3(h, h, h));
             }
 
             float avg          = (minHeight + maxHeight) * 0.5f;

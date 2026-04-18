@@ -1,9 +1,15 @@
 ﻿
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
     public static Game Instance;
+
+    public FirstPersonController PlayerPrefab;
+    public string CornFieldScene;
+    public string GameplayScene;
+
     public FirstPersonController FirstPersonController;
     public HandItemManager HandItemManager;
     public TexturePainter TexturePainter;
@@ -13,9 +19,22 @@ public class Game : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+
         Instance = this;
-        FirstPersonController = FindAnyObjectByType<FirstPersonController>();
-        HandItemManager = FindAnyObjectByType<HandItemManager>();
-        TexturePainter = FindAnyObjectByType<TexturePainter>();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        SceneManager.LoadScene(CornFieldScene, LoadSceneMode.Additive);
+        SceneManager.LoadScene(GameplayScene, LoadSceneMode.Additive);
+
+        FirstPersonController = Instantiate(PlayerPrefab);
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        HandItemManager ??= FindAnyObjectByType<HandItemManager>();
+        TexturePainter ??= FindAnyObjectByType<TexturePainter>();
+    }
+
 }

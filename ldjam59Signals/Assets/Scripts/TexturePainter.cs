@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class TexturePainter : MonoBehaviour
 {
-    public Camera cam;
-    public Color drawColor = Color.black;
     public int brushSize = 8;
 
     public Texture2D Texture;
@@ -15,7 +13,6 @@ public class TexturePainter : MonoBehaviour
 
     void Start()
     {
-        cam = Camera.main;
         rend = GetComponent<Renderer>();
 
         // Клонируем текстуру, чтобы можно было менять
