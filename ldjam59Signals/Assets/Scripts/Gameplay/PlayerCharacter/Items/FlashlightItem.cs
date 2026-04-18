@@ -7,6 +7,8 @@ public class FlashlightItem : AbstractItem
     [SerializeField] private float batteryLife = 100f;
     [SerializeField] private float drainRate = 5f;
     [SerializeField] private AudioClip toggleSound;
+    [SerializeField] private float intensityModeOne;
+    [SerializeField] private float intensityModeTwo;
     
     private bool isOn = false;
     private AudioSource audioSource;
@@ -41,7 +43,7 @@ public class FlashlightItem : AbstractItem
     {
         if (flashlightLight != null)
         {
-            flashlightLight.intensity = flashlightLight.intensity == 1f ? 2f : 1f;
+            flashlightLight.intensity = flashlightLight.intensity == intensityModeOne? intensityModeTwo : intensityModeOne;
         }
     }
     

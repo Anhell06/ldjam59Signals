@@ -504,8 +504,8 @@ MonoBehaviour:
   fieldHeight: 200
   spacing: 0.5
   jitter: 0.2
-  minHeight: 3
-  maxHeight: 5
+  minHeight: 1.5
+  maxHeight: 2.5
   bendRecoverySpeed: 3
   grassMesh: {fileID: 690106047850165013, guid: b69768f41bda1e247b88170e879bcb6c, type: 3}
   grassMaterial: {fileID: 2100000, guid: f8db033ecfe907a498e3c9df31336aa8, type: 2}
