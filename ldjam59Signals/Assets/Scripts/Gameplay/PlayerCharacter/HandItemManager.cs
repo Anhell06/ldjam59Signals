@@ -177,11 +177,19 @@ public class HandItemManager : MonoBehaviour
         {
             currentItem.PrimaryAction();
         }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            currentItem.PrimaryActionStop();
+        }
         
         // Дополнительное действие (ПКМ)
         if (Input.GetButtonDown("Fire2"))
         {
             currentItem.SecondaryAction();
+        }
+        if (Input.GetButtonUp("Fire2"))
+        {
+            currentItem.SecondaryActionStop();
         }
     }
     

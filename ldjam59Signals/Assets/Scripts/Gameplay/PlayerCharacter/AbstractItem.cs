@@ -43,6 +43,9 @@ public abstract class AbstractItem : MonoBehaviour
     public abstract void PrimaryAction();
     public abstract void SecondaryAction();
 
+    public virtual void PrimaryActionStop() { }
+    public virtual void SecondaryActionStop() { }
+
     protected virtual void OnItemEquipped()
     {
         
