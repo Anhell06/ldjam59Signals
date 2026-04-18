@@ -146,14 +146,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 64200150}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.04, y: 0.934, z: 0.92}
-  m_LocalScale: {x: 3, y: 3, z: 0.29999995}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0040016174, y: 2.9542694, z: 1.9230022}
+  m_LocalScale: {x: 0.3, y: 0.30000013, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 235295825}
   - {fileID: 619779234}
-  m_Father: {fileID: 1912075389}
+  m_Father: {fileID: 1688178901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &64200152
 SphereCollider:
@@ -296,10 +296,10 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 3
-  m_Range: 10
-  m_SpotAngle: 89.19084
-  m_InnerSpotAngle: 70.99292
+  m_Intensity: 255
+  m_Range: 15
+  m_SpotAngle: 60
+  m_InnerSpotAngle: 60
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -417,8 +417,8 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.1
-  m_Range: 10
+  m_Intensity: 10
+  m_Range: 15
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -568,6 +568,7 @@ MonoBehaviour:
   FirstPersonController: {fileID: 0}
   HandItemManager: {fileID: 0}
   TexturePainter: {fileID: 1105564793}
+  targetTexture: {fileID: 2800000, guid: 8a28b83f4b28d4e4fa14082e286fcdcb, type: 3}
 --- !u!4 &652964028
 Transform:
   m_ObjectHideFlags: 0
@@ -776,6 +777,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   drawColor: {r: 0, g: 0, b: 0, a: 1}
   brushSize: 8
+  Texture: {fileID: 0}
   grassWorld: {fileID: 637690869}
 --- !u!64 &1105564794
 MeshCollider:
@@ -1078,12 +1080,45 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304225946}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.92153853, y: 2.2117324, z: -2.67}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 3, z: 0.1}
   m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1688178901}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1688178900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1688178901}
+  m_Layer: 0
+  m_Name: StreetLamp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1688178901
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688178900}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.9215393, y: 2.85, z: -2.67}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1304225950}
   - {fileID: 1912075389}
+  - {fileID: 64200151}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1912075388
@@ -1114,12 +1149,11 @@ Transform:
   m_GameObject: {fileID: 1912075388}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.0154226, z: 9.890001}
-  m_LocalScale: {x: 1, y: 10, z: 0.033333335}
+  m_LocalPosition: {x: 0, y: 3.0462685, z: 0.9890003}
+  m_LocalScale: {x: 0.1, y: 1, z: 0.10000008}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 64200151}
-  m_Father: {fileID: 1304225950}
+  m_Children: []
+  m_Father: {fileID: 1688178901}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!136 &1912075390
 CapsuleCollider:
@@ -1508,5 +1542,5 @@ SceneRoots:
   - {fileID: 693973011}
   - {fileID: 1181511528}
   - {fileID: 864925402}
-  - {fileID: 1304225950}
+  - {fileID: 1688178901}
   - {fileID: 1948690368}
