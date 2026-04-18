@@ -8,6 +8,9 @@ public class Game : MonoBehaviour
     public HandItemManager HandItemManager;
     public TexturePainter TexturePainter;
 
+    public Texture2D targetTexture;
+    public Texture2D currentTexture => TexturePainter.Texture;
+
     private void Awake()
     {
         Instance = this;

@@ -151,6 +151,7 @@ MonoBehaviour:
   FirstPersonController: {fileID: 0}
   HandItemManager: {fileID: 0}
   TexturePainter: {fileID: 1694082444}
+  targetTexture: {fileID: 2800000, guid: 419751e9a8d09864ea4e0921ae6f0cd4, type: 3}
 --- !u!4 &205654017
 Transform:
   m_ObjectHideFlags: 0
@@ -291,6 +292,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   drawColor: {r: 0, g: 0, b: 0, a: 1}
   brushSize: 8
+  Texture: {fileID: 0}
   grassWorld: {fileID: 1928992612}
 --- !u!1 &1928992611
 GameObject:
