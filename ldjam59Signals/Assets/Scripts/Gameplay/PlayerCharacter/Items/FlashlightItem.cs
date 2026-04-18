@@ -18,6 +18,7 @@ public class FlashlightItem : AbstractItem
         audioSource = GetComponent<AudioSource>();
         if (flashlightLight == null)
             flashlightLight = GetComponentInChildren<Light>();
+        SecondaryAction();
     }
     
     public override void OnEquip(FirstPersonController ownerController)

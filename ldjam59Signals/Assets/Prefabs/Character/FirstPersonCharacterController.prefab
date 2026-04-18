@@ -207,7 +207,7 @@ MonoBehaviour:
   crouchHeight: 2
   standingHeight: 4
   crouchTransitionSpeed: 10
-  groundCheckDistance: 1.1
+  groundCheckDistance: 2.1
   groundCheckRadius: 0.28
   groundMask:
     serializedVersion: 2

@@ -55,8 +55,8 @@ MonoBehaviour:
   batteryLife: 1000
   drainRate: 1
   toggleSound: {fileID: 0}
-  intensityModeOne: 1
-  intensityModeTwo: 5
+  intensityModeOne: 50
+  intensityModeTwo: 255
 --- !u!33 &7722144421263860487
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -176,7 +176,7 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 25
+  m_Range: 100
   m_SpotAngle: 53.229008
   m_InnerSpotAngle: 45.031086
   m_CookieSize: 10
