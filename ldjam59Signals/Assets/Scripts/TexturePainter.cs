@@ -25,37 +25,14 @@ public class TexturePainter : MonoBehaviour
         rend.material.mainTexture = texture;
     }
 
-    void Update()
+    public void Paint(Color color, Vector2 uv)
     {
-        if (Input.GetMouseButton(0)) // ЛКМ
-        {
-            Paint(drawColor);
-        }
+        int x = (int)(uv.x * texture.width);
+        int y = (int)(uv.y * texture.height);
 
-        if (Input.GetMouseButton(1)) // ПКМ
-        {
-            Paint(Color.white);
-        }
-    }
-
-    void Paint(Color color)
-    {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.collider.gameObject != gameObject) return;
-
-            Vector2 uv = hit.textureCoord;
-
-            int x = (int)(uv.x * texture.width);
-            int y = (int)(uv.y * texture.height);
-
-            DrawCircle(x, y, brushSize, color);
-            texture.Apply();
-            grassWorld.SetMask(texture);
-        }
+        DrawCircle(x, y, brushSize, color);
+        texture.Apply();
+        grassWorld.SetMask(texture);
     }
 
     void DrawCircle(int cx, int cy, int r, Color color)
