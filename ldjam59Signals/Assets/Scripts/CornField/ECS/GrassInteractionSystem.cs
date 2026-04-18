@@ -45,7 +45,7 @@ namespace GrassField.CustomECS
                         if (angle > data.BendAngle[i])
                         {
                             data.BendAngle[i] = angle;
-                            data.BendAxis[i]  = Vector3.Cross(
+                            data.BendAxis[i]  = -Vector3.Cross(
                                 delta.normalized, Vector3.up).normalized;
                         }
                     }
