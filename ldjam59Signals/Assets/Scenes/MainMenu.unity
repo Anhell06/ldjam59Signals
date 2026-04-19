@@ -7415,7 +7415,7 @@ MonoBehaviour:
   - {fileID: 369956994}
   - {fileID: 1343117804}
   - {fileID: 1642140735}
-  delay: 1
+  delay: 1.2
 --- !u!1001 &864262672
 PrefabInstance:
   m_ObjectHideFlags: 0

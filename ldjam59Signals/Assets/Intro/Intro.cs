@@ -19,8 +19,7 @@ public class Intro : MonoBehaviour
         StartCoroutine(ShowRoutine());
     }
     
-    private
-    IEnumerator ShowRoutine()
+    private IEnumerator ShowRoutine()
     {
         for (int i = 0; i < sprites.Count; i++)
         {
