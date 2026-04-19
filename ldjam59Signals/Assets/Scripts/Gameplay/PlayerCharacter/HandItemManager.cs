@@ -48,6 +48,7 @@ public class HandItemManager : MonoBehaviour
     {
         // Начинаем с пустыми руками
         SetEmptyHands();
+        SelectItemSlot(0);
     }
     
     private void Update()
@@ -100,14 +101,14 @@ public class HandItemManager : MonoBehaviour
             return;
         }
         
-        for (int i = 0; i < availableItems.Length; i++)
+        /*for (int i = 0; i < availableItems.Length; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
                 SelectItemSlot(i);
                 break;
             }
-        }
+        }*/
     }
     
     private void SelectItemSlot(int slotIndex)
