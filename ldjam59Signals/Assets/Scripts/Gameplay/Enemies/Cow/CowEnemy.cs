@@ -33,9 +33,9 @@ public class CowEnemy : MonoBehaviour
         billboard.SetMovingDirection((position - prevPosition));
         prevPosition = position;
         
-        if (Vector3.Distance(Game.Instance.FirstPersonController.transform.position, position) < 2f)
+        /*if (Vector3.Distance(Game.Instance.FirstPersonController.transform.position, position) < 2f)
         {
             LifesController.Instance.Die();
-        }
+        }*/
     }
 }
