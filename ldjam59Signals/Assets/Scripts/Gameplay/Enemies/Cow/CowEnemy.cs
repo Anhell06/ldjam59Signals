@@ -25,7 +25,7 @@ public class CowEnemy : MonoBehaviour
     {
         var ray = new Ray(transform.position, Vector3.down);
 ;
-        if (Physics.Raycast(ray, out var hit))
+        if (Physics.Raycast(ray, out var hit, 100, LayerMask.GetMask("Cornfield")))
         {
             Vector2 uv = hit.textureCoord;
             _texturPainter.Paint(UnityEngine.Color.white, uv);
