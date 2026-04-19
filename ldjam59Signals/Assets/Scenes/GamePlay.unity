@@ -1493,7 +1493,7 @@ MonoBehaviour:
   _maxHealsCount: 3
   _respawnController: {fileID: 1691959917}
   _playerTemplate: {fileID: 1447630008456056081, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-  _showWhileRespawn: {fileID: 0}
+  _showWhileRespawn: {fileID: 620360295}
   _respawnTime: 3
 --- !u!114 &1691959917
 MonoBehaviour:
