@@ -629,6 +629,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02b4ad95948c2248b38038f0653cda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 1447630008456056081, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
+  CornFieldScene: 
+  GameplayScene: 
+  ArtScene: 
   FirstPersonController: {fileID: 0}
   HandItemManager: {fileID: 0}
   TexturePainter: {fileID: 1105564793}
@@ -838,8 +842,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d297579075c49a34eab0e478ee19d3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  drawColor: {r: 0, g: 0, b: 0, a: 1}
   brushSize: 8
   Texture: {fileID: 0}
   grassWorld: {fileID: 637690869}
@@ -1549,6 +1551,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: CowController
       objectReference: {fileID: 0}
+    - target: {fileID: 4413640364909340064, guid: b6ff7cc6af45c5f42995ff6b53caac10, type: 3}
+      propertyPath: baseWidth
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413640364909340064, guid: b6ff7cc6af45c5f42995ff6b53caac10, type: 3}
+      propertyPath: fixedWidth
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4413640364909340064, guid: b6ff7cc6af45c5f42995ff6b53caac10, type: 3}
+      propertyPath: fixedHeight
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4609854516679212073, guid: b6ff7cc6af45c5f42995ff6b53caac10, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1594,63 +1608,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6ff7cc6af45c5f42995ff6b53caac10, type: 3}
---- !u!1001 &6500535217584702391
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3894145411841065938, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_Name
-      value: FirstPersonCharacterController
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200131427296177123, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200131427296177123, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200131427296177123, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200131427296177123, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200131427296177123, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200131427296177123, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200131427296177123, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200131427296177123, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200131427296177123, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200131427296177123, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9d83df2456b42824c8aca3bdba835d17, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1659,7 +1616,6 @@ SceneRoots:
   - {fileID: 637690870}
   - {fileID: 1105564797}
   - {fileID: 652964028}
-  - {fileID: 6500535217584702391}
   - {fileID: 693973011}
   - {fileID: 1181511528}
   - {fileID: 864925402}

@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Billboard : MonoBehaviour
 {
-    [SerializeField] 
-    private SpriteRenderer _spritreRend;
+    [SerializeField] private Animator _animator;
     
     public void SetMovingDirection(Vector3 direction)
     {
@@ -16,7 +15,18 @@ public class Billboard : MonoBehaviour
         if (toCamera.sqrMagnitude < 0.0001f)
             return;
 
-        transform.rotation = Quaternion.LookRotation(toCamera.normalized, Vector3.up);
+        // Получаем направление на камеру без вертикальной составляющей
+        Vector3 directionToCamera = toCamera.normalized;
+        directionToCamera.y = 0f;
+        
+        // Если направление слишком маленькое, используем forward по умолчанию
+        if (directionToCamera.sqrMagnitude < 0.0001f)
+            directionToCamera = transform.forward;
+        else
+            directionToCamera.Normalize();
+        
+        // Поворачиваем объект только вокруг оси Y
+        transform.rotation = Quaternion.LookRotation(directionToCamera, Vector3.up);
     }
 
     private void SetMovingDirection2D(Vector2 direction, Camera playerCamera)
@@ -55,17 +65,33 @@ public class Billboard : MonoBehaviour
 
     protected virtual void SetFrontBillboard()
     {
+        _animator.SetBool("Front",true);
+        _animator.SetBool("Back",false);
+        _animator.SetBool("Left",false);
+        _animator.SetBool("Right",false);
     }
 
     protected virtual void SetBackBillboard()
     {
+        _animator.SetBool("Front",false);
+        _animator.SetBool("Back",true);
+        _animator.SetBool("Left",false);
+        _animator.SetBool("Right",false);
     }
 
     protected virtual void SetLeftBillboard()
     {
+        _animator.SetBool("Front",false);
+        _animator.SetBool("Back",false);
+        _animator.SetBool("Left",true);
+        _animator.SetBool("Right",false);
     }
 
     protected virtual void SetRightBillboard()
     {
+        _animator.SetBool("Front",false);
+        _animator.SetBool("Back",false);
+        _animator.SetBool("Left",false);
+        _animator.SetBool("Right",true);
     }
 }
