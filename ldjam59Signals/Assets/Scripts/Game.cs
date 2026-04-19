@@ -21,7 +21,9 @@ public class Game : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-
+#if UNITY_EDITOR
+        Application.targetFrameRate = -1;
+#endif
         Instance = this;
 
         SceneManager.sceneLoaded += OnSceneLoaded;

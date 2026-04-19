@@ -15,6 +15,15 @@ namespace GrassField.CustomECS
         public readonly float[] SwayAmplitude;
         public readonly float[] WindInfluence;
 
+        // --- Предвычисленные константы (задаются один раз в Awake) -------
+        // Quaternion.Euler(0, RotationsY[i], 0) — RotationsY никогда не меняется
+        public readonly Quaternion[] BaseRotations;
+        // Mathf.Cos/Sin(SwayPhase[i]) — SwayPhase никогда не меняется
+        public readonly float[] CosSwayPhase;
+        public readonly float[] SinSwayPhase;
+        // Mathf.Cos(SwayPhase[i] * 1.7f) — коэффициент турбулентности
+        public readonly float[] CosTurbPhase;
+
         // --- Изгиб от интерактора (восстанавливается со временем) --------
         public readonly float[]   BendAngle;
         public readonly Vector3[] BendAxis;
@@ -47,6 +56,10 @@ namespace GrassField.CustomECS
             MaskBendAxis   = new Vector3[count];
             Matrices       = new Matrix4x4[count];
             Colors         = new Vector4[count];
+            BaseRotations  = new Quaternion[count];
+            CosSwayPhase   = new float[count];
+            SinSwayPhase   = new float[count];
+            CosTurbPhase   = new float[count];
         }
     }
 }
