@@ -38,6 +38,10 @@ namespace GrassField.CustomECS
         [SerializeField] [Range(0f, 90f)] private float maskMaxBendAngle = 80f;
         [SerializeField] private Vector3   maskBendDirection = Vector3.forward;
 
+        [Header("Оптимизация")]
+        [Tooltip("На сколько кадров размазать обновление качания. 1 = обновлять всё каждый кадр.")]
+        [SerializeField] [Range(1, 8)] private int swayChunks = 4;
+
         // ---- Приватные поля -----------------------------------------
         private GrassComponents        _components;
         private GrassInteractionSystem _interactionSystem;
@@ -45,6 +49,8 @@ namespace GrassField.CustomECS
         private GrassSwaySystem        _swaySystem;
         private GrassRenderSystem      _renderSystem;
         private WindData               _wind;
+
+        private int _currentSwayChunk;
 
         void Awake()
         {
@@ -76,6 +82,16 @@ namespace GrassField.CustomECS
                     new Vector3(h, h, h));
             }
 
+            // Предвычисляем константы, которые не меняются за всё время жизни поля
+            for (int i = 0; i < total; i++)
+            {
+                float phase = _components.SwayPhase[i];
+                _components.BaseRotations[i] = Quaternion.Euler(0f, _components.RotationsY[i], 0f);
+                _components.CosSwayPhase[i]  = Mathf.Cos(phase);
+                _components.SinSwayPhase[i]  = Mathf.Sin(phase);
+                _components.CosTurbPhase[i]  = Mathf.Cos(phase * 1.7f);
+            }
+
             float avg          = (minHeight + maxHeight) * 0.5f;
             _interactionSystem = new GrassInteractionSystem();
             _maskSystem        = new GrassMaskSystem(maskMaxBendAngle);
@@ -94,7 +110,20 @@ namespace GrassField.CustomECS
             // Маска запечена — в Update не вызываем.
             // Только интерактор → качание → рендер.
             _interactionSystem.Execute(_components);
-            _swaySystem.Execute(_components, _wind, Time.time, Time.deltaTime);
+
+            // Time-sliced sway: обновляем только 1/swayChunks стеблей за кадр.
+            // dt масштабируется на количество чанков, чтобы восстановление
+            // изгиба происходило с той же визуальной скоростью.
+            int total      = _components.Count;
+            int chunkSize  = (total + swayChunks - 1) / swayChunks; // ceiling division
+            int start      = _currentSwayChunk * chunkSize;
+            int end        = Mathf.Min(start + chunkSize, total);
+            float scaledDt = Time.deltaTime * swayChunks;
+
+            _swaySystem.Execute(_components, _wind, Time.time, scaledDt, start, end);
+
+            _currentSwayChunk = (_currentSwayChunk + 1) % swayChunks;
+
             _renderSystem.Execute(_components);
         }
 
