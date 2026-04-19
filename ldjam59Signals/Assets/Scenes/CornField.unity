@@ -418,7 +418,7 @@ MonoBehaviour:
   windStrength: 0.7
   windTurbulence: 0.25
   windFrequency: 1.2
-  maskTexture: {fileID: 2800000, guid: 8a28b83f4b28d4e4fa14082e286fcdcb, type: 3}
+  maskTexture: {fileID: 2800000, guid: 419751e9a8d09864ea4e0921ae6f0cd4, type: 3}
   maskCenter: {x: 0, y: 0}
   maskSize: {x: 101, y: 101}
   maskMaxBendAngle: 80
