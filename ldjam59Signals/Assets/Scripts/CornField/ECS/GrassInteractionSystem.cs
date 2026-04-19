@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GrassField.CustomECS
@@ -17,7 +18,13 @@ namespace GrassField.CustomECS
         public static readonly System.Collections.Generic.List<GrassInteractor>
             ActiveInteractors = new();
 
-        public void Execute(GrassComponents data)
+        private Dictionary<int, int> _hashSet = new();
+
+        public GrassInteractionSystem()
+        {
+        }
+
+        public void Execute(GrassComponents data, int start, int end)
         {
             if (ActiveInteractors.Count == 0) return;
 
@@ -26,16 +33,15 @@ namespace GrassField.CustomECS
             foreach (var interactor in ActiveInteractors)
             {
                 var interactorPosition = interactor.Position;
-                for (int i = 0; i < count; i++)
+                for (int i = start; i < end; i++)
                 {
                     Vector3 grassPos = data.Positions[i];
-                    Vector3 delta = grassPos - interactorPosition;
+                    Vector3 delta = new Vector3(grassPos.x - interactorPosition.x, 0, grassPos.z - interactorPosition.z);
                     // Используем только XZ-плоскость: высота стебля не влияет на расстояние
-                    delta.y = 0f;
                     float sqrDist = delta.sqrMagnitude;
                     float sqrRad = interactor.SqrRadius;
 
-                    if (sqrDist < sqrRad && sqrDist > 0.0001f)
+                    if (sqrDist < sqrRad)
                     {
                         float dist = Mathf.Sqrt(sqrDist);
                         float falloff = 1f - (dist / interactor.Radius); // 1 в центре, 0 на краю

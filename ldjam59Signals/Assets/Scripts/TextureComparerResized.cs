@@ -32,8 +32,8 @@ public class TextureComparerResized
                         Color a = texA.GetPixel(px, py);
                         Color b = texB.GetPixel(px, py);
 
-                        bool aWhite = a.grayscale > 0.5f;
-                        bool bWhite = b.grayscale > 0.5f;
+                        bool aWhite = a.r > 0.5f;
+                        bool bWhite = b.r > 0.5f;
 
                         if (aWhite == bWhite)
                             matched++;

@@ -44,7 +44,7 @@ namespace GrassField.CustomECS
 
             if (mask == null) return;
 
-            Color[] pixels  = mask.GetPixels();  // единственная аллокация
+            var pixels  = mask.GetPixels32();  // единственная аллокация
             int     texW    = mask.width;
             int     texH    = mask.height;
             float   invW    = 1f / worldBounds.width;
@@ -61,10 +61,11 @@ namespace GrassField.CustomECS
 
                 if (u < 0f || u > 1f || v < 0f || v > 1f) continue;
 
-                int px = Mathf.Clamp((int)(u * texW), 0, texW - 1);
-                int py = Mathf.Clamp((int)(v * texH), 0, texH - 1);
+                int px = (int)(u * texW);
+                int py = (int)(v * texH);
 
-                float brightness = pixels[py * texW + px].grayscale;
+                if (py * texW + px >= pixels.Length) continue;
+                float brightness = pixels[py * texW + px].r;
                 if (brightness < 0.01f) continue;
 
                 data.MaskBendAngle[i] = brightness * _maxBendAngle;

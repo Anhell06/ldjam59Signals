@@ -19,30 +19,30 @@ namespace GrassField.CustomECS
 
         // Цвета (задаются снаружи через SetColors)
         private Color _normalColor = new Color(0.30f, 0.50f, 0.15f);
-        private Color _bentColor   = new Color(0.12f, 0.18f, 0.05f);
+        private Color _bentColor = new Color(0.12f, 0.18f, 0.05f);
 
         // Кэш для частых вычислений
         private Vector3 _cachedWindCrossAxis;
-        private float _cachedSinComponent;    // sin(time * wind.Frequency + phase)
-        private float _cachedTurbComponent;   // для турбулентности
+        private float _cachedSinComponent; // sin(time * wind.Frequency + phase)
+        private float _cachedTurbComponent; // для турбулентности
         private bool _windCrossAxisDirty = true;
 
         public GrassSwaySystem(float grassHeight, float bendRecoverySpeed)
         {
-            _grassHeight       = grassHeight;
+            _grassHeight = grassHeight;
             _bendRecoverySpeed = bendRecoverySpeed;
         }
 
         public void SetColors(Color normal, Color bent)
         {
             _normalColor = normal;
-            _bentColor   = bent;
+            _bentColor = bent;
         }
 
         /// <param name="startIndex">Первый индекс обрабатываемого диапазона (включительно).</param>
         /// <param name="endIndex">Последний индекс обрабатываемого диапазона (не включая).</param>
         public void Execute(GrassComponents data, WindData wind, float time, float dt,
-                            int startIndex = 0, int endIndex = -1)
+            int startIndex = 0, int endIndex = -1)
         {
             int count = endIndex < 0 ? data.Count : endIndex;
 
@@ -85,16 +85,16 @@ namespace GrassField.CustomECS
                 // swayPhase задаётся один раз и не меняется.
                 // sin(time * freq + phase) = sin(time*freq)*cos(phase) + cos(time*freq)*sin(phase)
                 float sway = (sineBase * data.CosSwayPhase[i] + cosineBase * data.SinSwayPhase[i])
-                           * data.SwayAmplitude[i]
-                           * wind.Strength
-                           * data.WindInfluence[i]
-                           * swayWeight;
+                             * data.SwayAmplitude[i]
+                             * wind.Strength
+                             * data.WindInfluence[i]
+                             * swayWeight;
 
                 float turb = sineTurb
-                           * data.CosTurbPhase[i]
-                           * wind.Turbulence
-                           * data.WindInfluence[i]
-                           * swayWeight;
+                             * data.CosTurbPhase[i]
+                             * wind.Turbulence
+                             * data.WindInfluence[i]
+                             * swayWeight;
 
                 float windAngle = (sway + turb) * 30f;
 
@@ -116,10 +116,26 @@ namespace GrassField.CustomECS
                 Quaternion tempRot = windRot * bendRot;
                 Quaternion finalRot = tempRot * baseRot;
 
-                data.Matrices[i] = Matrix4x4.TRS(
-                    data.Positions[i],
-                    finalRot,
-                    scaleVector);
+                Vector3 pos = data.Positions[i];
+
+// Извлекаем компоненты кватерниона
+                float qx = finalRot.x, qy = finalRot.y, qz = finalRot.z, qw = finalRot.w;
+                // Вычисляем матрицу поворота из кватерниона вручную (без вызова функций)
+                float x2 = qx + qx, y2 = qy + qy, z2 = qz + qz;
+                float xx = qx * x2, xy = qx * y2, xz = qx * z2;
+                float yy = qy * y2, yz = qy * z2, zz = qz * z2;
+                float wx = qw * x2, wy = qw * y2, wz = qw * z2;
+
+                float scale = scaleVector.x; // предполагаем uniform scale
+
+// Прямая запись в Matrix4x4 через unsafe или через индексы если это массив float
+// Для NativeArray<Matrix4x4>:
+                var matrix = data.Matrices[i];
+                matrix.m00 = (1f - (yy + zz)) * scale; matrix.m01 = (xy - wz) * scale; matrix.m02 = (xz + wy) * scale; matrix.m03 = pos.x;
+                matrix.m10 = (xy + wz) * scale; matrix.m11 = (1f - (xx + zz)) * scale; matrix.m12 = (yz - wx) * scale; matrix.m13 = pos.y;
+                matrix.m20 = (xz - wy) * scale; matrix.m21 = (yz + wx) * scale; matrix.m22 = (1f - (xx + yy)) * scale; matrix.m23 = pos.z;
+                matrix.m30 = 0f; matrix.m31 = 0f; matrix.m32 = 0f; matrix.m33 = 1f;
+                data.Matrices[i] = matrix;
 
                 // ---- 6. Цвет: плавный lerp между нормальным и тёмным ----
                 // ЗАКОММЕНТИРОВАН - пока не используется
