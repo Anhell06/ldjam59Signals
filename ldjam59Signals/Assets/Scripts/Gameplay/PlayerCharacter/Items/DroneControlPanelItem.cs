@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class DroneControlPanelItem : AbstractItem
@@ -36,6 +37,19 @@ public class DroneControlPanelItem : AbstractItem
             Game.Instance.MapCheckView.ResetAllStates();
 
             yield return new WaitForSeconds(5f);
+
+            var allresult = true;
+
+            for (int i = 0; i < result.GetLength(0); i++)
+            {
+                for (int y = 0; y < result.GetLength(1); y++)
+                {
+                    if(!result[i,y])
+                        allresult = false;  
+                }
+            }
+
+            if (allresult) { LifesController.Instance.ShowWinScreen(); };
         }
     }
 

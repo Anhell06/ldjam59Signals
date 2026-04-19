@@ -1,5 +1,7 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class LifesController : MonoBehaviour
@@ -8,8 +10,12 @@ public class LifesController : MonoBehaviour
     [SerializeField] private RespawnController _respawnController;
     [SerializeField] private FirstPersonController _playerTemplate;
     [SerializeField] private GameObject _showWhileRespawn;
+    [SerializeField] private GameObject _looseScreen;
+    [SerializeField] private GameObject _winScreen;
     [SerializeField] private float _respawnTime = 3f;
     public static LifesController Instance;
+
+    private bool _dieInProgress;
 
     private int _currentLifesCount;
     private Transform _playerTransform;
@@ -31,20 +37,42 @@ public class LifesController : MonoBehaviour
     public async void Die()
     {
         _currentLifesCount--;
-
-        if (_currentLifesCount >= 0)
-        {
-            PlayerController.SetControllerEnabled(false);
-            _showWhileRespawn.gameObject.SetActive(true);
-            await Task.Delay(Mathf.RoundToInt(_respawnTime * 1000));
-            _respawnController.Respawn(_playerTransform, _currentLifesCount);
-            PlayerController.SetControllerEnabled(true);
-            _showWhileRespawn.gameObject.SetActive(false);
+        if (_dieInProgress)
             return;
+
+        _dieInProgress = true;
+
+            PlayerController.SetControllerEnabled(false);
+        try
+        {
+            if (_currentLifesCount >= 0)
+            {
+                _showWhileRespawn.gameObject.SetActive(true);
+                await Task.Delay(Mathf.RoundToInt(_respawnTime * 1000));
+                _respawnController.Respawn(_playerTransform, _currentLifesCount);
+                _showWhileRespawn.gameObject.SetActive(false);
+                return;
+            }
+            else
+            {
+                _looseScreen.gameObject.SetActive(true);
+                await Task.Delay(Mathf.RoundToInt(_respawnTime * 1000));
+                SceneManager.LoadScene("MainMenu");
+                return;
+            }
         }
+        finally
+        {
+            PlayerController.SetControllerEnabled(true);
+            _dieInProgress = false;
+        }
+    }
 
-        //Note: Loose here
-
-        _currentLifesCount = _maxHealsCount;
+    internal async void ShowWinScreen()
+    {
+        PlayerController.SetControllerEnabled(false);
+        _winScreen.gameObject.SetActive(true);
+        await Task.Delay(Mathf.RoundToInt(_respawnTime * 1000));
+        SceneManager.LoadScene("MainMenu");
     }
 }
