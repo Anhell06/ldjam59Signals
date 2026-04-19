@@ -14,6 +14,7 @@ public class Game : MonoBehaviour
     public FirstPersonController FirstPersonController;
     public HandItemManager HandItemManager;
     public TexturePainter TexturePainter;
+    public MapCheckView MapCheckView;
 
     public Texture2D targetTexture;
     public Texture2D currentTexture => TexturePainter.Texture;
@@ -39,6 +40,6 @@ public class Game : MonoBehaviour
     {
         HandItemManager ??= FindAnyObjectByType<HandItemManager>();
         TexturePainter ??= FindAnyObjectByType<TexturePainter>();
+        MapCheckView ??= FindAnyObjectByType<MapCheckView>();
     }
-
 }
