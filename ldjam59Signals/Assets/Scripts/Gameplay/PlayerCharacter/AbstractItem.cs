@@ -51,6 +51,11 @@ public abstract class AbstractItem : MonoBehaviour
         
     }
 
+    public virtual void LightSwitch()
+    {
+        
+    }
+
     protected virtual void OnItemHolstered()
     {
         

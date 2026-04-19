@@ -52,7 +52,7 @@ public class RedneckEnemy : MonoBehaviour
             i = (i + 1) % _patrolPoints.Count;
             var nextPoint = _patrolPoints[i];
             GoToPatrolPoint();
-            while (Vector3.Distance(transform.position, nextPoint.point.position) < 2)
+            while (Vector3.Distance(transform.position, nextPoint.point.position) < 4)
             {
                 if (!TryPursuitPlayer())
                 {
