@@ -74,6 +74,10 @@ public class RedneckEnemy : MonoBehaviour
 
     private bool TryPursuitPlayer()
     {
+        if (Game.Instance == null || Game.Instance.FirstPersonController == null)
+        {
+            return false;
+        }
         if (Vector3.Distance(transform.position, Game.Instance.FirstPersonController.transform.position) > _playerLostRadius)
         {
             _pursuit = false;
