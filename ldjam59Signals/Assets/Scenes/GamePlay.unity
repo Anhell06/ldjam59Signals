@@ -2018,6 +2018,66 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1006022476}
     m_Modifications:
+    - target: {fileID: 622917321638569961, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_text
+      value: "HINTS\n1. Your flying saucer crashed on the worst planet.\r\n2. You
+        must signal the Rescue Mission\r\n3. The tablet shows a sign that needs to
+        be drawn in a corn field to give a signal\r\n4. Use cornTool for drawing\r\n\u2014
+        LMB \u2014 Trample the Corn\r\n\u2014 RMB \u2014 Raise the Corn\r\n\u2014
+        L \u2014 Flashlight\r\n5. Beware of the Rednecks"
+      objectReference: {fileID: 0}
+    - target: {fileID: 622917321638569961, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 622917321638569961, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_margin.y
+      value: -0.7384033
+      objectReference: {fileID: 0}
+    - target: {fileID: 622917321638569961, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961514151346439930, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961514151346439930, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -0.00012207
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961514151346439930, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961514151346439930, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000030517578
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175282907230401406, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175282907230401406, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.8631019
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175282907230401406, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175282907230401406, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175282907230401406, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175282907230401406, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -8
+      objectReference: {fileID: 0}
     - target: {fileID: 4691653247388641424, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
       propertyPath: m_Name
       value: Screens
@@ -2032,27 +2092,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6669090450192341198, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6669090450192341198, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6669090450192341198, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6669090450192341198, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6669090450192341198, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6669090450192341198, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6669090450192341198, guid: 19ba6acbd0ed52541bc8746660bf2c3a, type: 3}
       propertyPath: m_LocalPosition.x
