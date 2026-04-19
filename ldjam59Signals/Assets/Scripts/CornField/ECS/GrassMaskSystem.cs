@@ -42,6 +42,9 @@ namespace GrassField.CustomECS
                 data.MaskBendAxis[i]  = Vector3.right;
             }
 
+            var worldBoundsX = worldBounds.x;
+            var worldBoundsY = worldBounds.y;
+
             if (mask == null) return;
 
             var pixels  = mask.GetPixels32();  // единственная аллокация
@@ -56,8 +59,8 @@ namespace GrassField.CustomECS
             for (int i = 0; i < data.Count; i++)
             {
                 Vector3 pos = data.Positions[i];
-                float u = (pos.x - worldBounds.x) * invW;
-                float v = (pos.z - worldBounds.y) * invH;
+                float u = (pos.x - worldBoundsX) * invW;
+                float v = (pos.z - worldBoundsY) * invH;
 
                 if (u < 0f || u > 1f || v < 0f || v > 1f) continue;
 

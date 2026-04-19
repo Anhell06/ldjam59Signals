@@ -115,27 +115,23 @@ namespace GrassField.CustomECS
                 // windRot * bendRot * baseRot
                 Quaternion tempRot = windRot * bendRot;
                 Quaternion finalRot = tempRot * baseRot;
-
+                
                 Vector3 pos = data.Positions[i];
-
-// Извлекаем компоненты кватерниона
                 float qx = finalRot.x, qy = finalRot.y, qz = finalRot.z, qw = finalRot.w;
-                // Вычисляем матрицу поворота из кватерниона вручную (без вызова функций)
+
                 float x2 = qx + qx, y2 = qy + qy, z2 = qz + qz;
                 float xx = qx * x2, xy = qx * y2, xz = qx * z2;
                 float yy = qy * y2, yz = qy * z2, zz = qz * z2;
                 float wx = qw * x2, wy = qw * y2, wz = qw * z2;
 
-                float scale = scaleVector.x; // предполагаем uniform scale
+                float s = grassHeightScale;
 
-// Прямая запись в Matrix4x4 через unsafe или через индексы если это массив float
-// Для NativeArray<Matrix4x4>:
-                var matrix = data.Matrices[i];
-                matrix.m00 = (1f - (yy + zz)) * scale; matrix.m01 = (xy - wz) * scale; matrix.m02 = (xz + wy) * scale; matrix.m03 = pos.x;
-                matrix.m10 = (xy + wz) * scale; matrix.m11 = (1f - (xx + zz)) * scale; matrix.m12 = (yz - wx) * scale; matrix.m13 = pos.y;
-                matrix.m20 = (xz - wy) * scale; matrix.m21 = (yz + wx) * scale; matrix.m22 = (1f - (xx + yy)) * scale; matrix.m23 = pos.z;
-                matrix.m30 = 0f; matrix.m31 = 0f; matrix.m32 = 0f; matrix.m33 = 1f;
-                data.Matrices[i] = matrix;
+                data.Matrices[i] = new Matrix4x4 {
+                    m00 = (1f - (yy + zz)) * s, m01 = (xy - wz) * s, m02 = (xz + wy) * s, m03 = pos.x,
+                    m10 = (xy + wz) * s, m11 = (1f - (xx + zz)) * s, m12 = (yz - wx) * s, m13 = pos.y,
+                    m20 = (xz - wy) * s, m21 = (yz + wx) * s, m22 = (1f - (xx + yy)) * s, m23 = pos.z,
+                    m30 = 0f, m31 = 0f, m32 = 0f, m33 = 1f
+                };
 
                 // ---- 6. Цвет: плавный lerp между нормальным и тёмным ----
                 // ЗАКОММЕНТИРОВАН - пока не используется
