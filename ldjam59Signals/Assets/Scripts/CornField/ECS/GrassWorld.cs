@@ -109,7 +109,6 @@ namespace GrassField.CustomECS
         {
             // Маска запечена — в Update не вызываем.
             // Только интерактор → качание → рендер.
-            _interactionSystem.Execute(_components);
 
             // Time-sliced sway: обновляем только 1/swayChunks стеблей за кадр.
             // Если маска только что изменилась — обновляем все стебли сразу,
@@ -122,6 +121,7 @@ namespace GrassField.CustomECS
             _currentSwayChunk = (_currentSwayChunk + 1) % swayChunks;
 
             _swaySystem.Execute(_components, _wind, Time.time, scaledDt, start, end);
+            _interactionSystem.Execute(_components, start, end);
 
             _renderSystem.Execute(_components);
             ApplyMask();

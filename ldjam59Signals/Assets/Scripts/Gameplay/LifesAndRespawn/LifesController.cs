@@ -12,6 +12,7 @@ public class LifesController : MonoBehaviour
     [SerializeField] private GameObject _showWhileRespawn;
     [SerializeField] private GameObject _looseScreen;
     [SerializeField] private GameObject _winScreen;
+    [SerializeField] private AudioSource _deathSound;
     [SerializeField] private float _respawnTime = 3f;
     public static LifesController Instance;
 
@@ -36,13 +37,14 @@ public class LifesController : MonoBehaviour
 
     public async void Die()
     {
-        _currentLifesCount--;
         if (_dieInProgress)
             return;
 
         _dieInProgress = true;
+        _currentLifesCount--;
 
-            PlayerController.SetControllerEnabled(false);
+        PlayerController.SetControllerEnabled(false);
+        _deathSound.Play();
         try
         {
             if (_currentLifesCount >= 0)

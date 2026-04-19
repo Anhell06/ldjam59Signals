@@ -42,9 +42,12 @@ namespace GrassField.CustomECS
                 data.MaskBendAxis[i]  = Vector3.right;
             }
 
+            var worldBoundsX = worldBounds.x;
+            var worldBoundsY = worldBounds.y;
+
             if (mask == null) return;
 
-            Color[] pixels  = mask.GetPixels();  // единственная аллокация
+            var pixels  = mask.GetPixels32();  // единственная аллокация
             int     texW    = mask.width;
             int     texH    = mask.height;
             float   invW    = 1f / worldBounds.width;
@@ -56,15 +59,16 @@ namespace GrassField.CustomECS
             for (int i = 0; i < data.Count; i++)
             {
                 Vector3 pos = data.Positions[i];
-                float u = (pos.x - worldBounds.x) * invW;
-                float v = (pos.z - worldBounds.y) * invH;
+                float u = (pos.x - worldBoundsX) * invW;
+                float v = (pos.z - worldBoundsY) * invH;
 
                 if (u < 0f || u > 1f || v < 0f || v > 1f) continue;
 
-                int px = Mathf.Clamp((int)(u * texW), 0, texW - 1);
-                int py = Mathf.Clamp((int)(v * texH), 0, texH - 1);
+                int px = (int)(u * texW);
+                int py = (int)(v * texH);
 
-                float brightness = pixels[py * texW + px].grayscale;
+                if (py * texW + px >= pixels.Length) continue;
+                float brightness = pixels[py * texW + px].r;
                 if (brightness < 0.01f) continue;
 
                 data.MaskBendAngle[i] = brightness * _maxBendAngle;
