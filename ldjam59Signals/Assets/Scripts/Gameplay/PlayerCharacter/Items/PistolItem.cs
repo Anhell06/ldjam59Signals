@@ -16,6 +16,7 @@ public class PistolItem : AbstractItem
     [SerializeField] private Light greenLight;
     [SerializeField] private Light yellowLight;
 
+    [SerializeField] private float pistolDist = 5f;
     public void Start()
     {
         _cumZalupa4 = Camera.main;
@@ -35,13 +36,13 @@ public class PistolItem : AbstractItem
     {
         if (!primaryActionActive)
             return;
-
+        
         var ray = _cumZalupa4.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out var hit))
+        if (Physics.Raycast(ray, out var hit,  pistolDist, LayerMask.GetMask("Cornfield")))
         {
             Vector2 uv = hit.textureCoord;
-            _texturPainter.Paint(UnityEngine.Color.black, uv);
+            _texturPainter.Paint(UnityEngine.Color.white, uv);
         }
     }
     public override void PrimaryActionStop()
@@ -63,13 +64,13 @@ public class PistolItem : AbstractItem
     {
         if (!secondaryActionActive)
             return;
-        
+
         var ray = _cumZalupa4.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out var hit))
+        if (Physics.Raycast(ray, out var hit, pistolDist, LayerMask.GetMask("Cornfield")))
         {
             Vector2 uv = hit.textureCoord;
-            _texturPainter.Paint(UnityEngine.Color.white, uv);
+            _texturPainter.Paint(UnityEngine.Color.black, uv);
         }
     }
     
