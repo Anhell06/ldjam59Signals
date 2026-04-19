@@ -14,7 +14,7 @@ namespace GrassField.CustomECS
     {
         // Статический список всех активных интеракторов в сцене.
         // GrassInteractor.OnEnable/OnDisable управляют списком.
-        public static readonly System.Collections.Generic.List<GrassInteractor> 
+        public static readonly System.Collections.Generic.List<GrassInteractor>
             ActiveInteractors = new();
 
         public void Execute(GrassComponents data)
@@ -23,29 +23,29 @@ namespace GrassField.CustomECS
 
             int count = data.Count;
 
-            for (int i = 0; i < count; i++)
+            foreach (var interactor in ActiveInteractors)
             {
-                Vector3 grassPos = data.Positions[i];
-
-                foreach (var interactor in ActiveInteractors)
+                var interactorPosition = interactor.Position;
+                for (int i = 0; i < count; i++)
                 {
-                    Vector3 delta = grassPos - interactor.Position;
+                    Vector3 grassPos = data.Positions[i];
+                    Vector3 delta = grassPos - interactorPosition;
                     // Используем только XZ-плоскость: высота стебля не влияет на расстояние
                     delta.y = 0f;
                     float sqrDist = delta.sqrMagnitude;
-                    float sqrRad  = interactor.Radius * interactor.Radius;
+                    float sqrRad = interactor.SqrRadius;
 
                     if (sqrDist < sqrRad && sqrDist > 0.0001f)
                     {
-                        float dist    = Mathf.Sqrt(sqrDist);
+                        float dist = Mathf.Sqrt(sqrDist);
                         float falloff = 1f - (dist / interactor.Radius); // 1 в центре, 0 на краю
-                        float angle   = interactor.Force * falloff * 60f; // до 60°
+                        float angle = interactor.Force * falloff * 60f; // до 60°
 
                         // Берём максимальный изгиб если интеракторов несколько
                         if (angle > data.BendAngle[i])
                         {
                             data.BendAngle[i] = angle;
-                            data.BendAxis[i]  = -Vector3.Cross(
+                            data.BendAxis[i] = -Vector3.Cross(
                                 delta.normalized, Vector3.up).normalized;
                         }
                     }

@@ -12,11 +12,18 @@ namespace GrassField.CustomECS
     {
         [Range(0.1f, 8f)]  public float Radius = 1.5f;
         [Range(0f,   1f)]  public float Force  = 0.9f;
+        
+        public float SqrRadius { get; private set; }
 
         // GrassInteractionSystem читает это свойство напрямую
         public Vector3 Position => transform.position;
 
-        void OnEnable()  => GrassInteractionSystem.ActiveInteractors.Add(this);
+        void OnEnable()
+        {
+            GrassInteractionSystem.ActiveInteractors.Add(this);
+            SqrRadius = Radius * Radius;
+        }
+
         void OnDisable() => GrassInteractionSystem.ActiveInteractors.Remove(this);
 
 #if UNITY_EDITOR
