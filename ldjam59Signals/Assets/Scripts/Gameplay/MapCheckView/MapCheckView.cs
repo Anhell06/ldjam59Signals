@@ -128,8 +128,8 @@ public class MapCheckView : MonoBehaviour
                 var yToPlay = _preAllocatedIndexToCheck[randomIndex];
 
                 // Мутируем состояние ДО вызова SetStateWithDelay:
-                // при задержке = 0 Task.Delay(0) завершается синхронно, коллбэк
-                // вызывается прямо внутри SetStateWithDelay и рекурсивно обращается
+                // при задержке = 0 коллбэк вызывается синхронно внутри SetStateWithDelay
+                // и рекурсивно обращается
                 // к _preAllocatedIndexToCheck — если RemoveAt был бы после, список
                 // уже оказался бы изменён и индекс вышел бы за границы.
                 semaphoreRow[yToPlay] = true;

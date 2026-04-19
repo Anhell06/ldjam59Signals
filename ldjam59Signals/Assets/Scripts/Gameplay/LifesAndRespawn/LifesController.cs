@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -35,7 +35,7 @@ public class LifesController : MonoBehaviour
         _playerTransform = PlayerController.transform;
     }
 
-    public async void Die()
+    public void Die()
     {
         if (_dieInProgress)
             return;
@@ -45,22 +45,25 @@ public class LifesController : MonoBehaviour
 
         PlayerController.SetControllerEnabled(false);
         _deathSound.Play();
+        StartCoroutine(DieRoutine());
+    }
+
+    private IEnumerator DieRoutine()
+    {
         try
         {
             if (_currentLifesCount >= 0)
             {
                 _showWhileRespawn.gameObject.SetActive(true);
-                await Task.Delay(Mathf.RoundToInt(_respawnTime * 1000));
+                yield return new WaitForSecondsRealtime(_respawnTime);
                 _respawnController.Respawn(_playerTransform, _currentLifesCount);
                 _showWhileRespawn.gameObject.SetActive(false);
-                return;
             }
             else
             {
                 _looseScreen.gameObject.SetActive(true);
-                await Task.Delay(Mathf.RoundToInt(_respawnTime * 1000));
+                yield return new WaitForSecondsRealtime(_respawnTime);
                 SceneManager.LoadScene("MainMenu");
-                return;
             }
         }
         finally
@@ -70,11 +73,16 @@ public class LifesController : MonoBehaviour
         }
     }
 
-    internal async void ShowWinScreen()
+    internal void ShowWinScreen()
+    {
+        StartCoroutine(ShowWinScreenRoutine());
+    }
+
+    private IEnumerator ShowWinScreenRoutine()
     {
         PlayerController.SetControllerEnabled(false);
         _winScreen.gameObject.SetActive(true);
-        await Task.Delay(Mathf.RoundToInt(_respawnTime * 1000));
+        yield return new WaitForSecondsRealtime(_respawnTime);
         SceneManager.LoadScene("MainMenu");
     }
 }

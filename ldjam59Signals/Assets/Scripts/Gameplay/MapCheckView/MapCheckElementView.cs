@@ -1,6 +1,6 @@
 using System;
+using System.Collections;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public enum EMapCheckElementState
@@ -13,6 +13,8 @@ public enum EMapCheckElementState
 
 public class MapCheckElementView : MonoBehaviour
 {
+    private Coroutine _setStateDelayRoutine;
+
     [SerializeField] private GameObject _neutralStateGameObject;
     [SerializeField] private GameObject _positiveStateGameObject;
     [SerializeField] private GameObject _negativeStateGameObject;
@@ -42,14 +44,49 @@ public class MapCheckElementView : MonoBehaviour
         }
     }
 
-    public async Task SetStateWithDelay(EMapCheckElementState state, int delay, CancellationToken cancellationToken, Action onComplete = null)
+    public void SetStateWithDelay(EMapCheckElementState state, int delayMs, CancellationToken cancellationToken, Action onComplete = null)
     {
-        await Task.Delay(delay, cancellationToken);
+        if (_setStateDelayRoutine != null)
+        {
+            StopCoroutine(_setStateDelayRoutine);
+            _setStateDelayRoutine = null;
+        }
 
-        if(cancellationToken.IsCancellationRequested)
+        if (delayMs <= 0)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
+            SetState(state);
+            onComplete?.Invoke();
             return;
+        }
+
+        _setStateDelayRoutine = StartCoroutine(SetStateWithDelayRoutine(state, delayMs / 1000f, cancellationToken, onComplete));
+    }
+
+    private IEnumerator SetStateWithDelayRoutine(EMapCheckElementState state, float delaySec, CancellationToken cancellationToken, Action onComplete)
+    {
+        float end = Time.realtimeSinceStartup + delaySec;
+        while (Time.realtimeSinceStartup < end)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                _setStateDelayRoutine = null;
+                yield break;
+            }
+
+            yield return null;
+        }
+
+        if (cancellationToken.IsCancellationRequested)
+        {
+            _setStateDelayRoutine = null;
+            yield break;
+        }
 
         SetState(state);
         onComplete?.Invoke();
+        _setStateDelayRoutine = null;
     }
 }
