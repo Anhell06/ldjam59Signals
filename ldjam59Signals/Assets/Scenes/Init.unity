@@ -155,6 +155,7 @@ MonoBehaviour:
   FirstPersonController: {fileID: 0}
   HandItemManager: {fileID: 0}
   TexturePainter: {fileID: 0}
+  MapCheckView: {fileID: 0}
   targetTexture: {fileID: 2800000, guid: 8a28b83f4b28d4e4fa14082e286fcdcb, type: 3}
 --- !u!4 &795527722
 Transform:
