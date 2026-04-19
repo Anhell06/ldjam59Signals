@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LifesController : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class LifesController : MonoBehaviour
 
     private int _currentLifesCount;
     private Transform _playerTransform;
-    private FirstPersonController _playerController;
+    public FirstPersonController PlayerController { get; private set; }
 
     private void Awake()
     {
@@ -20,8 +21,8 @@ public class LifesController : MonoBehaviour
     public void SpawnPlayerOnGameStart()
     {
         _currentLifesCount = _maxHealsCount;
-        _playerController = _respawnController.FirstSpawn<FirstPersonController>(_playerTemplate);
-        _playerTransform = _playerController.transform;
+        PlayerController = _respawnController.FirstSpawn<FirstPersonController>(_playerTemplate);
+        _playerTransform = PlayerController.transform;
     }
 
     public void Die()
@@ -30,9 +31,9 @@ public class LifesController : MonoBehaviour
 
         if (_currentLifesCount > 0)
         {
-            _playerController.MovementBlocked = true;
+            PlayerController.MovementBlocked = true;
             _respawnController.Respawn(_playerTransform, _currentLifesCount);
-            _playerController.MovementBlocked = false;
+            PlayerController.MovementBlocked = false;
             return;
         }
 

@@ -11,7 +11,7 @@ public class Game : MonoBehaviour
     public string GameplayScene;
     public string ArtScene;
 
-    public FirstPersonController FirstPersonController;
+    public FirstPersonController FirstPersonController =>  LifesController.Instance.PlayerController;
     public HandItemManager HandItemManager;
     public TexturePainter TexturePainter;
     public MapCheckView MapCheckView;
