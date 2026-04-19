@@ -93,7 +93,10 @@ public class MapCheckView : MonoBehaviour
 
     private void ViewAnimationCallback()
     {
-        _viewAnimationsInProgress--;
+        // Счётчик никогда не должен уходить в минус:
+        // StopAnimation() сбрасывает его в 0 раньше, чем некоторые коллбэки успевают сработать.
+        if (_viewAnimationsInProgress > 0)
+            _viewAnimationsInProgress--;
         StartNewAnimationIsNeeded();
     }
 
@@ -123,15 +126,20 @@ public class MapCheckView : MonoBehaviour
             {
                 var randomIndex = Random.Range(0, _preAllocatedIndexToCheck.Count);
                 var yToPlay = _preAllocatedIndexToCheck[randomIndex];
-                _mapCheckElementView2dList[x][yToPlay].SetState(EMapCheckElementState.InProgress);
 
-                _mapCheckElementView2dList[x][yToPlay].SetStateWithDelay(_currentStates[x][yToPlay],
-                    Mathf.RoundToInt(Random.Range(_minAndMaxCheckDuration.x, _minAndMaxCheckDuration.y) * 1000),
-                    _cancellationTokenSource.Token, ViewAnimationCallback);
-
+                // Мутируем состояние ДО вызова SetStateWithDelay:
+                // при задержке = 0 Task.Delay(0) завершается синхронно, коллбэк
+                // вызывается прямо внутри SetStateWithDelay и рекурсивно обращается
+                // к _preAllocatedIndexToCheck — если RemoveAt был бы после, список
+                // уже оказался бы изменён и индекс вышел бы за границы.
                 semaphoreRow[yToPlay] = true;
                 _viewAnimationsInProgress++;
                 _preAllocatedIndexToCheck.RemoveAt(randomIndex);
+
+                _mapCheckElementView2dList[x][yToPlay].SetState(EMapCheckElementState.InProgress);
+                _mapCheckElementView2dList[x][yToPlay].SetStateWithDelay(_currentStates[x][yToPlay],
+                    Mathf.RoundToInt(Random.Range(_minAndMaxCheckDuration.x, _minAndMaxCheckDuration.y) * 1000),
+                    _cancellationTokenSource.Token, ViewAnimationCallback);
 
                 if (_viewAnimationsInProgress >= _sameTimeCheckablePoints)
                     return;
