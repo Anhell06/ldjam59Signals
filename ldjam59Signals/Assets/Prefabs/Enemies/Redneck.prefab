@@ -696,6 +696,7 @@ GameObject:
   - component: {fileID: 3286378123589330260}
   - component: {fileID: 4030918331352592744}
   - component: {fileID: 7741728640642957201}
+  - component: {fileID: 4793424996506115108}
   m_Layer: 0
   m_Name: Redneck
   m_TagString: Untagged
@@ -832,3 +833,17 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &4793424996506115108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7049655967715881367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344a97c8bf4c3da4cabf1633e2ba92fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Radius: 1.5
+  Force: 0.9
