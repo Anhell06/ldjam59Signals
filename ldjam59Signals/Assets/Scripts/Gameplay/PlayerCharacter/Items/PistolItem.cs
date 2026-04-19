@@ -68,8 +68,12 @@ public class PistolItem : AbstractItem
         leaserBeamAnimator.SetBool("Straighten", true);
         yellowLight.gameObject.SetActive(true);
     }
-   
-    
+
+    [SerializeField] private GameObject _light;
+    public override void LightSwitch()
+    {
+        _light.gameObject.SetActive(!_light.gameObject.activeSelf);
+    }
     private void UpdateSecondaryActionView()
     {
         if (!secondaryActionActive)

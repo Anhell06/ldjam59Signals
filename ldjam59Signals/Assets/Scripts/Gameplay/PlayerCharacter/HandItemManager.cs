@@ -182,6 +182,11 @@ public class HandItemManager : MonoBehaviour
         {
             currentItem.PrimaryActionStop();
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            currentItem.LightSwitch();
+        }
         
         // Дополнительное действие (ПКМ)
         if (Input.GetButtonDown("Fire2"))
