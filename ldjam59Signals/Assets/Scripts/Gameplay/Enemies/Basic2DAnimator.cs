@@ -1,16 +1,30 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Basic2DAnimator : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField]
+    private List<Texture2D> textures;
+
+    [SerializeField] 
+    private TextureToPlane tp;
+    
+    void OnEnable()
     {
-        
+        StartCoroutine(UpdateRoutine());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator UpdateRoutine()
     {
-        
+        var wait = new WaitForSeconds(0.2f);
+        var i = 0;
+        yield return null;
+        while (true)
+        {
+            i = (i + 1) % textures.Count;
+            tp.UpdateTexture(textures[i]);
+            yield return wait;
+        }
     }
 }

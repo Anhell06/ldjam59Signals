@@ -13,9 +13,12 @@ public class CowEnemy : MonoBehaviour
 
     private TexturePainter _texturPainter;
 
+    private Vector3 prevPosition;
+
     private void Start()
     {
         _texturPainter = Game.Instance.TexturePainter;
+        
     }
 
     private void Update()
@@ -27,5 +30,8 @@ public class CowEnemy : MonoBehaviour
             Vector2 uv = hit.textureCoord;
             _texturPainter.Paint(UnityEngine.Color.white, uv);
         }
+        var position = transform.position;
+        billboard.SetMovingDirection((position - prevPosition));
+        prevPosition = position;
     }
 }

@@ -221,22 +221,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4609854516679212073}
     m_Modifications:
-    - target: {fileID: 4030918331352592744, guid: 5dad2d49e0ebdca458ff3477dfd9100f, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6259004678819252936, guid: 5dad2d49e0ebdca458ff3477dfd9100f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6259004678819252936, guid: 5dad2d49e0ebdca458ff3477dfd9100f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6259004678819252936, guid: 5dad2d49e0ebdca458ff3477dfd9100f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 6259004678819252936, guid: 5dad2d49e0ebdca458ff3477dfd9100f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.4
@@ -280,10 +264,6 @@ PrefabInstance:
     - target: {fileID: 7049655967715881367, guid: 5dad2d49e0ebdca458ff3477dfd9100f, type: 3}
       propertyPath: m_Name
       value: SphericalCowInVacuum
-      objectReference: {fileID: 0}
-    - target: {fileID: 7049655967715881367, guid: 5dad2d49e0ebdca458ff3477dfd9100f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

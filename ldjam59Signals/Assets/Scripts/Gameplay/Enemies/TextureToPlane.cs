@@ -14,10 +14,11 @@ public class TextureToPlane : MonoBehaviour
     
     [Tooltip("Базовая ширина Plane (если autoFitSize = true, высота рассчитается автоматически)")]
     public float _baseWidth = 1f;
+    public float widthMultiplier = 1f;
 
     public float baseWidth
     {
-        get { return _baseWidth * sourceTexture.width; }
+        get { return _baseWidth * sourceTexture.width * widthMultiplier; }
     }
 
     [Tooltip("Фиксированная ширина (если autoFitSize = false)")]
@@ -122,8 +123,8 @@ public class TextureToPlane : MonoBehaviour
         
         transform.localScale = newScale;
         
-        Debug.Log($"Plane resized. Texture: {sourceTexture.width}x{sourceTexture.height}, " +
-                  $"Aspect: {textureAspect:F2}, New Size: {newScale.x} x {newScale.z}");
+        //Debug.Log($"Plane resized. Texture: {sourceTexture.width}x{sourceTexture.height}, " +
+                  //$"Aspect: {textureAspect:F2}, New Size: {newScale.x} x {newScale.z}");
     }
     
     void CreateDefaultMaterial()

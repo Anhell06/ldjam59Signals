@@ -1,11 +1,28 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Billboard : MonoBehaviour
 {
-    [SerializeField] private Animator _animator;
+    [FormerlySerializedAs("left")] [SerializeField] private GameObject _backward;
+    [FormerlySerializedAs("right")] [SerializeField] private GameObject _forward;
+    [FormerlySerializedAs("forward")] [SerializeField] private GameObject _left;
+    [FormerlySerializedAs("backward")] [SerializeField] private GameObject _right;
+    
+    // Дополнительные параметры для учета позиции
+    [SerializeField] private bool usePositionForBillboard = true;
+    [SerializeField] private float positionInfluenceWeight = 0.5f; // Вес влияния позиции (0-1)
+    
+    private Vector3 lastPosition;
+    private Vector3 currentDirection;
+    
+    private void Start()
+    {
+        lastPosition = transform.position;
+    }
     
     public void SetMovingDirection(Vector3 direction)
     {
+        currentDirection = direction;
         SetMovingDirection2D(new Vector2(direction.x, direction.z), Camera.main);
     }
     
@@ -27,26 +44,66 @@ public class Billboard : MonoBehaviour
         
         // Поворачиваем объект только вокруг оси Y
         transform.rotation = Quaternion.LookRotation(directionToCamera, Vector3.up);
+        
+        // Обновляем билборд на основе движения и позиции
+        UpdateBillboardBasedOnMovementAndPosition();
     }
-
-    private void SetMovingDirection2D(Vector2 direction, Camera playerCamera)
+    
+    private void UpdateBillboardBasedOnMovementAndPosition()
     {
-        if (playerCamera == null || direction.sqrMagnitude < 0.0001f)
+        // Вычисляем направление движения
+        Vector3 movementDirection = transform.position - lastPosition;
+        movementDirection.y = 0f;
+        
+        Vector3 finalDirection;
+        
+        if (usePositionForBillboard && movementDirection.sqrMagnitude > 0.0001f)
+        {
+            // Вычисляем направление от текущей позиции к точке впереди по движению
+            Vector3 futurePosition = transform.position + movementDirection.normalized;
+            Vector3 directionFromCurrent = (futurePosition - transform.position).normalized;
+            
+            // Комбинируем направление движения с учетом позиции
+            finalDirection = Vector3.Lerp(movementDirection.normalized, directionFromCurrent, positionInfluenceWeight);
+            finalDirection.Normalize();
+        }
+        else if (movementDirection.sqrMagnitude > 0.0001f)
+        {
+            finalDirection = movementDirection.normalized;
+        }
+        else
+        {
+            finalDirection = currentDirection;
+        }
+        
+        // Применяем билборд с учетом комбинированного направления
+        if (finalDirection.sqrMagnitude > 0.0001f)
+        {
+            ApplyBillboardDirection(finalDirection);
+        }
+        
+        lastPosition = transform.position;
+    }
+    
+    private void ApplyBillboardDirection(Vector3 direction)
+    {
+        Camera playerCamera = Camera.main;
+        if (playerCamera == null)
             return;
-
-        Vector3 worldDirection = new Vector3(direction.x, 0f, direction.y).normalized;
-
+            
+        Vector3 worldDirection = direction.normalized;
+        
         Vector3 cameraForward = playerCamera.transform.forward;
         cameraForward.y = 0f;
         cameraForward.Normalize();
-
+        
         Vector3 cameraRight = playerCamera.transform.right;
         cameraRight.y = 0f;
         cameraRight.Normalize();
-
+        
         float forwardDot = Vector3.Dot(worldDirection, cameraForward);
         float rightDot = Vector3.Dot(worldDirection, cameraRight);
-
+        
         if (Mathf.Abs(forwardDot) >= Mathf.Abs(rightDot))
         {
             if (forwardDot >= 0f)
@@ -63,35 +120,56 @@ public class Billboard : MonoBehaviour
         }
     }
 
+    private void SetMovingDirection2D(Vector2 direction, Camera playerCamera)
+    {
+        if (playerCamera == null || direction.sqrMagnitude < 0.0001f)
+            return;
+
+        Vector3 worldDirection = new Vector3(direction.x, 0f, direction.y).normalized;
+        
+        // Сохраняем текущее направление
+        currentDirection = worldDirection;
+        
+        // Применяем билборд с учетом позиции
+        if (usePositionForBillboard)
+        {
+            UpdateBillboardBasedOnMovementAndPosition();
+        }
+        else
+        {
+            ApplyBillboardDirection(worldDirection);
+        }
+    }
+
     protected virtual void SetFrontBillboard()
     {
-        _animator.SetBool("Front",true);
-        _animator.SetBool("Back",false);
-        _animator.SetBool("Left",false);
-        _animator.SetBool("Right",false);
+        _backward.gameObject.SetActive(true);
+        _forward.gameObject.SetActive(false);
+        _left.gameObject.SetActive(false);
+        _right.gameObject.SetActive(false);
     }
 
     protected virtual void SetBackBillboard()
     {
-        _animator.SetBool("Front",false);
-        _animator.SetBool("Back",true);
-        _animator.SetBool("Left",false);
-        _animator.SetBool("Right",false);
+        _backward.gameObject.SetActive(false);
+        _forward.gameObject.SetActive(true);
+        _left.gameObject.SetActive(false);
+        _right.gameObject.SetActive(false);
     }
 
     protected virtual void SetLeftBillboard()
     {
-        _animator.SetBool("Front",false);
-        _animator.SetBool("Back",false);
-        _animator.SetBool("Left",true);
-        _animator.SetBool("Right",false);
+        _backward.gameObject.SetActive(false);
+        _forward.gameObject.SetActive(false);
+        _left.gameObject.SetActive(true);
+        _right.gameObject.SetActive(false);
     }
 
     protected virtual void SetRightBillboard()
     {
-        _animator.SetBool("Front",false);
-        _animator.SetBool("Back",false);
-        _animator.SetBool("Left",false);
-        _animator.SetBool("Right",true);
+        _backward.gameObject.SetActive(false);
+        _forward.gameObject.SetActive(false);
+        _left.gameObject.SetActive(false);
+        _right.gameObject.SetActive(true);
     }
 }
