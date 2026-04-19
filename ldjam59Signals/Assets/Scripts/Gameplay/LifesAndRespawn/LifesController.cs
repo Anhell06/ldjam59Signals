@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -6,7 +7,8 @@ public class LifesController : MonoBehaviour
     [SerializeField] private int _maxHealsCount = 3;
     [SerializeField] private RespawnController _respawnController;
     [SerializeField] private FirstPersonController _playerTemplate;
-
+    [SerializeField] private GameObject _showWhileRespawn;
+    [SerializeField] private float _respawnTime = 3f;
     public static LifesController Instance;
 
     private int _currentLifesCount;
@@ -26,15 +28,18 @@ public class LifesController : MonoBehaviour
         _playerTransform = PlayerController.transform;
     }
 
-    public void Die()
+    public async void Die()
     {
         _currentLifesCount--;
 
         if (_currentLifesCount > 0)
         {
-            PlayerController.MovementBlocked = true;
+            PlayerController.SetControllerEnabled(false);
+            _showWhileRespawn.gameObject.SetActive(true);
+            await Task.Delay(Mathf.RoundToInt(_respawnTime * 1000));
             _respawnController.Respawn(_playerTransform, _currentLifesCount);
-            PlayerController.MovementBlocked = false;
+            PlayerController.SetControllerEnabled(true);
+            _showWhileRespawn.gameObject.SetActive(false);
             return;
         }
 
