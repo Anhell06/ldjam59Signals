@@ -256,7 +256,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void HandleCrouch()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        /*if (Input.GetKey(KeyCode.LeftControl))
         {
             isCrouching = true;
             isSprinting = false; // Нельзя бежать в приседе
@@ -264,7 +264,7 @@ public class FirstPersonController : MonoBehaviour
         else if (isCrouching && CanStandUp())
         {
             isCrouching = false;
-        }
+        }*/
 
         float targetHeight = isCrouching ? crouchHeight : standingHeight;
         
