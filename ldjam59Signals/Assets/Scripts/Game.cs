@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -33,7 +33,7 @@ public class Game : MonoBehaviour
         SceneManager.LoadScene(CornFieldScene, LoadSceneMode.Additive);
         SceneManager.LoadScene(GameplayScene, LoadSceneMode.Additive);
 
-        FirstPersonController = Instantiate(PlayerPrefab);
+        //FirstPersonController = Instantiate(PlayerPrefab);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -41,5 +41,16 @@ public class Game : MonoBehaviour
         HandItemManager ??= FindAnyObjectByType<HandItemManager>();
         TexturePainter ??= FindAnyObjectByType<TexturePainter>();
         MapCheckView ??= FindAnyObjectByType<MapCheckView>();
+
+        if(LifesController.Instance != null)
+            LifesController.Instance.SpawnPlayerOnGameStart();
     }
+
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+            LifesController.Instance.Die();
+    }
+#endif
 }

@@ -60,6 +60,8 @@ public class FirstPersonController : MonoBehaviour
     public float CurrentStamina => currentStamina;
     public float MaxStamina => maxStamina;
 
+    public bool MovementBlocked;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -84,6 +86,9 @@ public class FirstPersonController : MonoBehaviour
 
     private void Update()
     {
+        if(MovementBlocked)
+            return;
+
         HandleMouseLook();
         isGrounded = CustomGroundCheck();
         
