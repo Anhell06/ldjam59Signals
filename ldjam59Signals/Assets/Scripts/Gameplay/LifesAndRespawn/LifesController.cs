@@ -22,6 +22,7 @@ public class LifesController : MonoBehaviour
     {
         _currentLifesCount = _maxHealsCount;
         PlayerController = _respawnController.FirstSpawn<FirstPersonController>(_playerTemplate);
+        Game.Instance.HandItemManager ??= FindAnyObjectByType<HandItemManager>();
         _playerTransform = PlayerController.transform;
     }
 
