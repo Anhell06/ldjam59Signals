@@ -36,13 +36,14 @@ public class LifesController : MonoBehaviour
 
     public async void Die()
     {
-        _currentLifesCount--;
         if (_dieInProgress)
             return;
 
         _dieInProgress = true;
+        _currentLifesCount--;
 
-            PlayerController.SetControllerEnabled(false);
+        PlayerController.SetControllerEnabled(false);
+
         try
         {
             if (_currentLifesCount >= 0)
