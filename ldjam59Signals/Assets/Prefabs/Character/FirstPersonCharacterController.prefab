@@ -339,7 +339,6 @@ MonoBehaviour:
   availableItems:
   - {fileID: 1242275726813914220}
   - {fileID: 7794879137876847154}
-  - {fileID: 8702036444441492810}
   - {fileID: 5791157819390323032}
   switchCooldown: 0.1
   handSocket: {fileID: 6134486500465197334}
@@ -576,6 +575,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PaperNote
       objectReference: {fileID: 0}
+    - target: {fileID: 7178543483388091442, guid: 511c8c0ea7affb944919f21a22fa6fb6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -652,6 +655,10 @@ PrefabInstance:
     - target: {fileID: 7178543483388091442, guid: 08db43949a38e4b44b95e48124e0db25, type: 3}
       propertyPath: m_Name
       value: FlashLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7178543483388091442, guid: 08db43949a38e4b44b95e48124e0db25, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -778,6 +785,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 7178543483388091442, guid: 72f56aaa5a090ef42a48d3431049747a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2677407165007993766, guid: 72f56aaa5a090ef42a48d3431049747a, type: 3}
     m_RemovedGameObjects: []
@@ -815,31 +826,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.3918272
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.13602787
+      value: -0.46
       objectReference: {fileID: 0}
     - target: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.70696497
+      value: 0.48
       objectReference: {fileID: 0}
     - target: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.61312085
       objectReference: {fileID: 0}
     - target: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.7899891
       objectReference: {fileID: 0}
     - target: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -847,7 +858,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -104.369
       objectReference: {fileID: 0}
     - target: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -867,17 +878,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3481852672376829407, guid: 257a952875e06214183d79344068a660, type: 3}
   m_PrefabInstance: {fileID: 6172405354828937618}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8702036444441492810 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3272729336250893528, guid: 257a952875e06214183d79344068a660, type: 3}
-  m_PrefabInstance: {fileID: 6172405354828937618}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4957010f46a99474ca316d50de84d39f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7385062744796931549
 PrefabInstance:
   m_ObjectHideFlags: 0

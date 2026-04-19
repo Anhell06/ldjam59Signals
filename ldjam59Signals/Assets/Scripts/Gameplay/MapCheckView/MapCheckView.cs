@@ -151,7 +151,7 @@ public class MapCheckView : MonoBehaviour
         }
     }
 
-    private void ResetAllStates()
+    public void ResetAllStates()
     {
         foreach (var mapElementViewList in _mapCheckElementView2dList)
         {
