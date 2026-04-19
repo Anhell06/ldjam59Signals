@@ -38,10 +38,20 @@ public class PistolItem : AbstractItem
             return;
         
         var ray = _cumZalupa4.ScreenPointToRay(Input.mousePosition);
-
+        
         if (Physics.Raycast(ray, out var hit,  pistolDist, LayerMask.GetMask("Cornfield")))
         {
             Vector2 uv = hit.textureCoord;
+            _texturPainter.Paint(UnityEngine.Color.white, uv);
+            return;
+        }
+
+        var secondTryPos = Game.Instance.FirstPersonController.transform.position +
+                           Game.Instance.FirstPersonController.transform.forward * 2f;
+        secondTryPos.y = Game.Instance.FirstPersonController.transform.position.y;
+        if (Physics.Raycast(secondTryPos, Vector3.down, out var hitInfo,  pistolDist, LayerMask.GetMask("Cornfield")))
+        {
+            Vector2 uv = hitInfo.textureCoord;
             _texturPainter.Paint(UnityEngine.Color.white, uv);
         }
     }

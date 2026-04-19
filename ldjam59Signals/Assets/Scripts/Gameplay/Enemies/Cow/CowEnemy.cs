@@ -18,7 +18,6 @@ public class CowEnemy : MonoBehaviour
     private void Start()
     {
         _texturPainter = Game.Instance.TexturePainter;
-        
     }
 
     private void Update()
@@ -33,5 +32,10 @@ public class CowEnemy : MonoBehaviour
         var position = transform.position;
         billboard.SetMovingDirection((position - prevPosition));
         prevPosition = position;
+        
+        if (Vector3.Distance(Game.Instance.FirstPersonController.transform.position, position) < 2f)
+        {
+            LifesController.Instance.Die();
+        }
     }
 }
