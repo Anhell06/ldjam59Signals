@@ -32,7 +32,7 @@ public class LifesController : MonoBehaviour
     {
         _currentLifesCount--;
 
-        if (_currentLifesCount > 0)
+        if (_currentLifesCount >= 0)
         {
             PlayerController.SetControllerEnabled(false);
             _showWhileRespawn.gameObject.SetActive(true);
