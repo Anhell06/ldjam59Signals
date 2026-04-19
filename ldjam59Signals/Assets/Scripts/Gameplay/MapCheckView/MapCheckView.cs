@@ -28,6 +28,22 @@ public class MapCheckView : MonoBehaviour
     private CancellationTokenSource _cancellationTokenSource = new();
     private List<int> _preAllocatedIndexToCheck = new();
 
+    public Vector2Int FieldSize => _fieldSize;
+
+    public void InitFromBool(bool[,] boolStates2dArray)
+    {
+        List<List<EMapCheckElementState>> states2dList = new();
+        for (int x = 0; x < boolStates2dArray.GetLength(0); x++)
+        {
+            states2dList.Add(new List<EMapCheckElementState>());
+
+            for (int y = 0; y < boolStates2dArray.GetLength(1); y++)
+                states2dList[x].Add(boolStates2dArray[x,y] ? EMapCheckElementState.Positive : EMapCheckElementState.Negative);
+        }
+
+        Init(states2dList);
+    }
+
     public void Init(List<List<EMapCheckElementState>> states2dList)
     {
         StopAnimation();
