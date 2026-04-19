@@ -1,4 +1,3 @@
-using Sirenix.Serialization;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer))]
