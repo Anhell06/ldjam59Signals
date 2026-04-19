@@ -90,17 +90,6 @@ public class HandItemManager : MonoBehaviour
         if (Time.time - lastSwitchTime < switchCooldown)
             return;
         
-        // Проверяем нажатие ESC для пустых рук
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (currentItem != null)
-            {
-                SetEmptyHands();
-                lastSwitchTime = Time.time;
-            }
-            return;
-        }
-        
         /*for (int i = 0; i < availableItems.Length; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
