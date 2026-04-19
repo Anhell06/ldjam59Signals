@@ -104,17 +104,58 @@ namespace GrassField.CustomECS
                 Vector3 bendAxis = maskBend >= dynamicBend
                     ? data.MaskBendAxis[i]
                     : data.BendAxis[i];
-                Quaternion bendRot = Quaternion.AngleAxis(totalBend, bendAxis);
+                
+                float halfTotalBend = totalBend * 0.008726646f;
+                float halfWindAngle = windAngle * 0.008726646f;
 
-                // BaseRotations предвычислен в Awake — RotationsY никогда не меняется
-                Quaternion baseRot = data.BaseRotations[i];
+                float sinHalfBend = FastSin(halfTotalBend);
+                float cosHalfBend = FastCos(halfTotalBend);
 
-                Quaternion windRot = Quaternion.AngleAxis(windAngle, windCrossAxis);
+                float sinHalfWind = FastSin(halfWindAngle);
+                float cosHalfWind = FastCos(halfWindAngle);
 
-                // ОПТИМИЗАЦИЯ 5: Оптимизированный порядок перемножения кватернионов
-                // windRot * bendRot * baseRot
-                Quaternion tempRot = windRot * bendRot;
-                Quaternion finalRot = tempRot * baseRot;
+// ===== ВНУТРИ ЦИКЛА =====
+// Получаем базовый поворот
+                float bx = data.BaseRotations[i].x;
+                float by = data.BaseRotations[i].y;
+                float bz = data.BaseRotations[i].z;
+                float bw = data.BaseRotations[i].w;
+
+// Получаем ось изгиба
+                float ax = bendAxis.x;
+                float ay = bendAxis.y;
+                float az = bendAxis.z;
+
+// 1. Строим bendRot напрямую (AngleAxis без вызова Unity)
+                float qb_x = ax * sinHalfBend;
+                float qb_y = ay * sinHalfBend;
+                float qb_z = az * sinHalfBend;
+                float qb_w = cosHalfBend;
+
+// 2. Строим windRot напрямую (используем кэшированную ось windCrossAxis)
+                float wwx = windCrossAxis.x;
+                float wwy = windCrossAxis.y;
+                float wwz = windCrossAxis.z;
+
+                float qw_x = wwx * sinHalfWind;
+                float qw_y = wwy * sinHalfWind;
+                float qw_z = wwz * sinHalfWind;
+                float qw_w = cosHalfWind;
+
+// 3. Умножение windRot * bendRot (ручное умножение кватернионов)
+                float t1_x = qw_w * qb_x + qw_x * qb_w + qw_y * qb_z - qw_z * qb_y;
+                float t1_y = qw_w * qb_y - qw_x * qb_z + qw_y * qb_w + qw_z * qb_x;
+                float t1_z = qw_w * qb_z + qw_x * qb_y - qw_y * qb_x + qw_z * qb_w;
+                float t1_w = qw_w * qb_w - qw_x * qb_x - qw_y * qb_y - qw_z * qb_z;
+
+// 4. Умножение (windRot * bendRot) * baseRot
+                float fx = t1_w * bx + t1_x * bw + t1_y * bz - t1_z * by;
+                float fy = t1_w * by - t1_x * bz + t1_y * bw + t1_z * bx;
+                float fz = t1_w * bz + t1_x * by - t1_y * bx + t1_z * bw;
+                float fw = t1_w * bw - t1_x * bx - t1_y * by - t1_z * bz;
+
+// Итоговый кватернион (без аллокаций и вызовов Unity API)
+                Quaternion finalRot = new Quaternion(fx, fy, fz, fw);
                 
                 Vector3 pos = data.Positions[i];
                 float qx = finalRot.x, qy = finalRot.y, qz = finalRot.z, qw = finalRot.w;
@@ -138,5 +179,65 @@ namespace GrassField.CustomECS
                 //data.Colors[i] = Vector4.Lerp(vNormal, vBent, bendFactor);
             }
         }
+    
+        private float FastSin(float x)
+        {
+            const float PI = 3.14159265359f;
+            const float INV2PI = 0.15915494309f;
+    
+            // Приведение к [0, 2PI]
+            x = x - (int)(x * INV2PI) * 6.28318530718f;
+            if (x < 0) x += 6.28318530718f;
+    
+            // Используем симметрию: sin(x) = sin(PI - x) для x в [PI/2, PI]
+            float sign = 1f;
+            if (x > PI)
+            {
+                x -= PI;
+                sign = -1f;
+            }
+            if (x > 1.57079632679f) // PI/2
+            {
+                x = PI - x;
+            }
+    
+            // Квадратичная аппроксимация на [0, PI/2]
+            // 4/π² ≈ 0.40528473456
+            // 4/π ≈ 1.27323954473
+            return sign * x * (1.27323954473f - x * 0.40528473456f);
+        }
+        private float FastCos(float x)
+        {    const float PI = 3.14159265359f;
+            const float HALF_PI = 1.57079632679f;
+            const float INV2PI = 0.15915494309f;
+    
+            // Приведение к [0, 2PI]
+            x = x - (int)(x * INV2PI) * 6.28318530718f;
+            if (x < 0) x += 6.28318530718f;
+    
+            float sign = 1f;
+    
+            // Косинус имеет период 2PI и симметрию cos(x) = cos(-x) = cos(2PI - x)
+            // Приводим к [0, PI]
+            if (x > PI)
+            {
+                x = 6.28318530718f - x; // 2PI - x
+            }
+    
+            // Теперь x в [0, PI]
+            // cos(x) положителен на [0, PI/2] и отрицателен на [PI/2, PI]
+            if (x > HALF_PI)
+            {
+                x = PI - x;
+                sign = -1f;
+            }
+    
+            // Аппроксимация косинуса на [0, PI/2]
+            // cos(x) ≈ 1 - (4/π²)x² ≈ 1 - 0.40528473456 * x²
+            float x2 = x * x;
+            return sign * (1f - 0.40528473456f * x2);
+        }
+        
+        
     }
 }
