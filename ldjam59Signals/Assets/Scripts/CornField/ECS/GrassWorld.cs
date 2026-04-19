@@ -112,19 +112,19 @@ namespace GrassField.CustomECS
             _interactionSystem.Execute(_components);
 
             // Time-sliced sway: обновляем только 1/swayChunks стеблей за кадр.
-            // dt масштабируется на количество чанков, чтобы восстановление
-            // изгиба происходило с той же визуальной скоростью.
-            int total      = _components.Count;
-            int chunkSize  = (total + swayChunks - 1) / swayChunks; // ceiling division
-            int start      = _currentSwayChunk * chunkSize;
-            int end        = Mathf.Min(start + chunkSize, total);
-            float scaledDt = Time.deltaTime * swayChunks;
+            // Если маска только что изменилась — обновляем все стебли сразу,
+            // чтобы изменение отобразилось немедленно, а не через N кадров.
+            int total     = _components.Count;
+            int chunkSize = (total + swayChunks - 1) / swayChunks; // ceiling division
+            var start    =  _currentSwayChunk * chunkSize;
+            var end      = Mathf.Min(start + chunkSize, total);
+            var scaledDt = Time.deltaTime * swayChunks;
+            _currentSwayChunk = (_currentSwayChunk + 1) % swayChunks;
 
             _swaySystem.Execute(_components, _wind, Time.time, scaledDt, start, end);
 
-            _currentSwayChunk = (_currentSwayChunk + 1) % swayChunks;
-
             _renderSystem.Execute(_components);
+            ApplyMask();
         }
 
         // ---- Публичное API -------------------------------------------
@@ -167,7 +167,13 @@ namespace GrassField.CustomECS
                 maskSize.x, maskSize.y);
             _maskSystem.SetBendDirection(maskBendDirection);
             _maskSystem.SetMask(_components, maskTexture, rect);
+
+            // Принудительно пересчитываем все матрицы в следующем кадре,
+            // чтобы смена маски не ждала своего чанка в time-slicing.
+            _maskDirty = true;
         }
+
+        private bool _maskDirty;
 
         private void UpdateWindData()
         {

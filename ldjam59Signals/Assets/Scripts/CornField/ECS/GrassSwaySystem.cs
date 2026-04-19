@@ -99,8 +99,12 @@ namespace GrassField.CustomECS
                 float windAngle = (sway + turb) * 30f;
 
                 // ---- 5. Итоговый поворот ---------------------------------
-                // ОПТИМИЗАЦИЯ 4: Убрать условный оператор для bendRot
-                Quaternion bendRot = Quaternion.AngleAxis(totalBend, data.BendAxis[i]);
+                // Ось: маска и интерактор хранят оси раздельно.
+                // Берём ось того источника, чей угол больше.
+                Vector3 bendAxis = maskBend >= dynamicBend
+                    ? data.MaskBendAxis[i]
+                    : data.BendAxis[i];
+                Quaternion bendRot = Quaternion.AngleAxis(totalBend, bendAxis);
 
                 // BaseRotations предвычислен в Awake — RotationsY никогда не меняется
                 Quaternion baseRot = data.BaseRotations[i];
