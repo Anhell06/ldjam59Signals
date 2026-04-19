@@ -1401,13 +1401,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1929402092612209831, guid: b6ff7cc6af45c5f42995ff6b53caac10, type: 3}
+      propertyPath: _maxTimeSec
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929402092612209831, guid: b6ff7cc6af45c5f42995ff6b53caac10, type: 3}
+      propertyPath: _minTimeSec
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2908978304123677591, guid: b6ff7cc6af45c5f42995ff6b53caac10, type: 3}
       propertyPath: m_Name
       value: CowController
       objectReference: {fileID: 0}
     - target: {fileID: 2908978304123677591, guid: b6ff7cc6af45c5f42995ff6b53caac10, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4433228067733956320, guid: b6ff7cc6af45c5f42995ff6b53caac10, type: 3}
       propertyPath: m_LocalPosition.x
