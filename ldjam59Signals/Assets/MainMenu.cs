@@ -9,6 +9,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Init");
     }
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
 
     public void Exit()
     {
